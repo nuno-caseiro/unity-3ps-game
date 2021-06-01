@@ -1,0 +1,20 @@
+Race track around a lake. 
+
+This asset contains:
+
+- race track model
+- a bridge
+- Unity terrain
+- water static texture
+- safety tires and road signs
+- one camera
+- two lights (sun+ambient)
+- rocks
+- electrical towers
+
+Materials with medium-res textures (1024x1024px). 
+
+Models are low-poly. 
+
+High-res version of this asset can be found here:
+https://assetstore.unity.com/packages/3d/environments/roadways/lake-race-track-55908
