@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "0255e067735dbfcb",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "0255e067735dbfcb",
+        "name": "com.Estg.Project",
+        "processId": 27994,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,38 +11,50 @@
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.google.android.googlequicksearchbox",
-            "processId": 717,
+            "processId": 24174,
             "exited": false
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 25579,
+            "processId": 21150,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 26251,
+            "processId": 21345,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 27314,
+            "processId": 23954,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 27562,
+            "processId": 25141,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 27853,
+            "processId": 26464,
             "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 27543,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 27994,
+            "exited": false
         }
     ],
     "m_Tags": {

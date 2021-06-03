@@ -177,7 +177,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (count == 1)
+            if (count == 2)
             {
                 PhotonNetwork.LoadLevel(1);
                 //lobbyText.text = "All Set: Play the game scene";

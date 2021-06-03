@@ -12,10 +12,8 @@ public class GameManager : MonoBehaviour
     public Camera sceneCam;
     public GameObject player;
     public Transform playerSpawnPosition;
-
-    public Transform enemySpawnPosition1;
-    public GameObject enemy;
-
+    public GameObject poolManager;
+    public GameObject spawnEnemyPoint;
 
     [HideInInspector]
     public GameObject localPlayer;
@@ -23,21 +21,20 @@ public class GameManager : MonoBehaviour
     private float timerCountdown = 600;
     public bool running = false;
 
-    private float intervalToSpawnEnemy = 10;
-    private float timerSpawnEnemy = 0;
-
     public Text timer;
     public GameObject teamScore;
 
-    public List<GameObject> zombieList;
+   
 
     int totalPlayers = 0;
 
     public GameObject deathScreen;
     public GameObject spectateContainer;
     public GameObject spectateObject;
+
     public GameObject gameOverScreen;
-    
+    public GameObject finishContainer;
+    public GameObject finishPlayerObject;
 
 
     // Start is called before the first frame update
@@ -48,6 +45,12 @@ public class GameManager : MonoBehaviour
         localPlayer = PhotonNetwork.Instantiate(player.name, playerSpawnPosition.position,playerSpawnPosition.rotation);
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
+        print("TOTAL PLAYERS" + totalPlayers);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            spawnEnemyPoint.SetActive(true);
+            poolManager.SetActive(true);
+        }
 
         /*  if (PhotonNetwork.IsMasterClient)
           {
@@ -63,7 +66,6 @@ public class GameManager : MonoBehaviour
     {
         //back buton go main menu por exemplo
         calculateTime();
-        spawnEnemy();
         
     }
 
@@ -73,18 +75,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void Spectate()
-    {
-        sceneCam.enabled = true;
-        deathScreen.SetActive(true);
+    { 
         FindAllPlayer();
     }
 
     void FindAllPlayer()
     {
         int deadPlayers = 0;
+        totalPlayers = PhotonNetwork.PlayerList.Length;
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
+
             if (!player.GetComponent<MyPlayer>().isDead)
             {
                 GameObject so = Instantiate(spectateObject, spectateContainer.transform);
@@ -94,13 +96,20 @@ public class GameManager : MonoBehaviour
             else
             {
                 deadPlayers++;
-                if (deadPlayers == totalPlayers)
-                {
-                    player.GetPhotonView().RPC("GameOver", RpcTarget.All);
-                }
+                sceneCam.enabled = true;
+                deathScreen.SetActive(true);
+            }
+
+        }
+        if (deadPlayers == totalPlayers)
+        {
+            foreach (GameObject player in players)
+            {
+                player.GetPhotonView().RPC("GameOver", RpcTarget.All);
             }
         }
     }
+
 
     void FinishGame()
     { 
@@ -143,51 +152,33 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void spawnEnemy()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            timerSpawnEnemy += Time.deltaTime;
-
-            if(timerSpawnEnemy >= intervalToSpawnEnemy)
-            {
-                timerSpawnEnemy = 0;
-                Transform spawnPoint = chooseRandomSpawnPoint();
-                float x = UnityEngine.Random.Range(-100, 100);
-                float z = UnityEngine.Random.Range(-100, 100);
-                Vector3 newPosition = spawnPoint.position + new Vector3(x, spawnPoint.position.y, z);
-
-                if (zombieList.Count > 0)
-                {
-                    zombieList[0].transform.position = newPosition;
-                    zombieList[0].GetComponent<NavMeshAgentBrain>().health = 1;
-                    zombieList[0].GetComponent<NavMeshAgentBrain>().death = false;
-                    zombieList[0].SetActive(true);
-                    zombieList.RemoveAt(0);
-                    print("NEW ZOMBIE FROM LIST");
-                }
-                else
-                {
-                    PhotonNetwork.Instantiate(enemy.name, newPosition, enemySpawnPosition1.rotation);
-                }
-               
-                
-            }
-            
-        }
-            
-    }
-
-    private Transform chooseRandomSpawnPoint()
-    {
-        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
-        int index = UnityEngine.Random.Range(0, spawnPoints.Length - 1);
-        return spawnPoints[index].transform;
-    }
-
     public void ShowWinScreen()
     {
+
+        running = false;
+        
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            GameObject so = Instantiate(finishPlayerObject, finishContainer.transform);
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                so.transform.Find("PlayerName").GetComponent<Text>().text = "You";
+            }
+            else
+            {
+                so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;    
+            }
+
+            so.transform.Find("Score").GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
+            print(player.GetComponent<MyPlayer>().points);
+        }
         gameOverScreen.SetActive(true);
+        localPlayer.GetComponent<MyPlayer>().healthBar.SetActive(false);
+        localPlayer.GetComponent<MyPlayer>().chatSystem.SetActive(false);
+        localPlayer.GetComponent<MyPlayer>().pointsParent.SetActive(false);
+        timer.text = "";
+
     }
 
     public void OnClick_GoBackToLobby()

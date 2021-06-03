@@ -14,13 +14,13 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
 
     private float speedVelocity;
-    private float jumpForce = 5f;
+    //private float jumpForce = 5f;
 
     public Transform cameraTransform;
 
     private FixedJoystick joystick;
-    private GameObject crossHairPrefab;
-    private Vector3 crossHairVel;
+    //private GameObject crossHairPrefab;
+    //private Vector3 crossHairVel;
     
     private bool fire = false;
 
@@ -55,7 +55,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     public Text teamPointsText;
     public float teamPoints = 0;
 
-    //criar novo script com o salto se for preciso futuramente
+
     Rigidbody rb;
     public float fallMultiplayer = 2.5f;
 
@@ -103,30 +103,15 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         }
 
     }
-
- /*  private void LateUpdate()
-    {
-        if (photonView.IsMine)
-        {
-            PositionCrossHair();
-        }
-        
-    }*/
    
     void LocalPlayerUpdate()
     {
-        //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-        //float fps = 1.0f / deltaTime;
-        //print(fps);
-
-
+        
         float horizontalMove = joystick.Horizontal;
         float verticalMove = joystick.Vertical;
 
         Vector2 moveVector = new Vector2(horizontalMove, verticalMove).normalized;
-        //Vector2 myVelocity = moveVector * moveSpeed;
-        //myVelocity.y = myRigidbody.velocity.y;
-        //myRigidbody.velocity = myVelocity;
+        
 
         if (moveVector != Vector2.zero)
         {
@@ -167,28 +152,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
         if (!fire)
             transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
-        //fixedeltatime
 
-        //PositionCrossHair();
-    }
-
-    void PositionCrossHair()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f,0));
-        int layer_mask = LayerMask.GetMask("Default");
-        if(Physics.Raycast(ray, out hit, 100f, layer_mask))
-        {
-            //crossHairPrefab.transform.position = Vector3.Lerp(crossHairPrefab.transform.position, ray.GetPoint(10), 0.5f);
-           crossHairPrefab.transform.position = Vector3.SmoothDamp(crossHairPrefab.transform.position, ray.GetPoint(10), ref crossHairVel, 0.03f);
-           crossHairPrefab.transform.LookAt(Camera.main.transform);
-        }
-        else
-        {
-            //crossHairPrefab.transform.position = Vector3.Lerp(crossHairPrefab.transform.position, ray.GetPoint(10), 0.5f);
-            crossHairPrefab.transform.position = Vector3.SmoothDamp(crossHairPrefab.transform.position, ray.GetPoint(10), ref crossHairVel, 0.03f);
-            crossHairPrefab.transform.LookAt(Camera.main.transform);
-        }
     }
 
     public void MuzzleFlash()
@@ -221,13 +185,8 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
 
             if (hit.transform.tag == "Zombie")
-            {
-                if (pv == null && hit.transform.gameObject.name != "LargeTrigger")
-                {
-                    hit.transform.parent.GetComponent<PhotonView>();
-                }
-                print(hit.transform.tag);
-                hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.AllBuffered, damage, transform.gameObject.GetInstanceID());
+            { 
+                hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.All, damage, transform.gameObject.GetInstanceID());
             }
 
 
@@ -268,13 +227,14 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     }
 
     [PunRPC]
-    public void GetDamage(float amount)
+    public void GetDamage(float amount, GameObject zombie)
     {
         print("AMOUNT ZOMBIE ON PLAYER:" + amount);
         playerHealth -= amount;
 
         if(playerHealth <=0 && photonView.IsMine)
         {
+            zombie.GetComponent<NavMeshAgentBrain>().stop();
             Death();
         }
 
@@ -289,6 +249,8 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     {
         isDead = true;
         transform.Find("Soldier").gameObject.SetActive(false);
+
+        
     }
 
     void Death()
@@ -297,7 +259,6 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             return;
 
         cameraTransform.gameObject.SetActive(false);
-        Destroy(crossHairPrefab);
 
         myAnimator.SetTrigger("death");
         photonView.RPC("HideplayerMesh", RpcTarget.All);

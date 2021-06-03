@@ -15,7 +15,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public bool death = false;
     public float health = 1.00f;
-    private float damage = 0.00f;
+    public float damage = 0.01f;
     public float points = 10;
 
 
@@ -30,11 +30,21 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
+
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Z_FallingBack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
-                GetComponent<PhotonView>().RPC("DestroyZombie", RpcTarget.MasterClient);
+                GetComponent<PhotonView>().RPC("DestroyZombie", RpcTarget.All);
 
             }
 
@@ -47,6 +57,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         }
 
      
+    }
+
+    [PunRPC]
+    public void ReBirth(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+        health = 1;
+        death = false;
+        ShouldIMove = false;
+        transform.gameObject.SetActive(true);
     }
 
     public void move()
@@ -92,10 +112,11 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         }*/
     }
 
-
     public void Death()
     {
+        navMeshAgent.velocity = Vector3.zero;
         navMeshAgent.isStopped = true;
+        ShouldIMove = false;
         death = true;
         animator.SetBool("run", false);
         animator.SetBool("attack", false);
@@ -107,8 +128,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     [PunRPC]
     public void DestroyZombie()
     {
-        transform.gameObject.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().zombieList.Add(transform.gameObject);   
+        GetComponent<PhotonView>().transform.gameObject.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameObject.Find("PoolManager").GetComponent<PoolManager>().zombieList.Enqueue(transform.gameObject);
+        }
+           
     }
 
     GameObject GetPlayer(int idObject)
@@ -130,15 +155,13 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            Point.GetComponent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, damage);
+            Point.GetComponent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, transform.gameObject);
         }
         
     }
 
     public void ReachTarget()
     {
-        
-        
         transform.LookAt(Point.transform);
         ShouldIMove = false;
         navMeshAgent.isStopped = true;

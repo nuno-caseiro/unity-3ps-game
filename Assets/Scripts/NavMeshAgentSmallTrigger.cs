@@ -27,6 +27,17 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         }
     }
 
+    public void OnTriggerStay(Collider other)
+    {
+
+        if (other.GetComponent<MyPlayer>().isDead)
+        {
+            print("SMALL TRIGGER DEAD?");
+            GetComponentInParent<NavMeshAgentBrain>().stop();
+
+        }
+    }
+
 
     private void OnTriggerExit(Collider other)
     {

@@ -31,7 +31,6 @@ public class MyCamera : MonoBehaviour
             transform.parent = null;
             touchField = GameObject.Find("TouchPanel").GetComponent<FixedTouchField>();
             target = GetLocalPlayer().transform.GetChild(3);
-           
         }
         else
         {
