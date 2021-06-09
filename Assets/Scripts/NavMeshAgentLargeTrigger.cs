@@ -17,9 +17,9 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            if (!other.GetComponent<MyPlayer>().isDead)
+            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
-                print("Small Exit");
+                
                 GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
                 GetComponentInParent<NavMeshAgentBrain>().move();
             }
@@ -30,7 +30,7 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            if (!other.GetComponent<MyPlayer>().isDead)
+            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
                 if (!GetComponentInParent<NavMeshAgentBrain>().ShouldIMove && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
                 {

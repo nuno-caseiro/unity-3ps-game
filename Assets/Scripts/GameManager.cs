@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     public bool running = false;
 
     public Text timer;
-    public GameObject teamScore;
+    public GameObject myScore;
+
 
    
 
@@ -98,6 +99,8 @@ public class GameManager : MonoBehaviour
                 deadPlayers++;
                 sceneCam.enabled = true;
                 deathScreen.SetActive(true);
+                deathScreen.transform.Find("PlayerPoints").GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
+                hidePlayerCanvasElements();
             }
 
         }
@@ -158,6 +161,7 @@ public class GameManager : MonoBehaviour
         running = false;
         
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        gameOverScreen.SetActive(true);
         foreach (GameObject player in players)
         {
             GameObject so = Instantiate(finishPlayerObject, finishContainer.transform);
@@ -173,12 +177,17 @@ public class GameManager : MonoBehaviour
             so.transform.Find("Score").GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
             print(player.GetComponent<MyPlayer>().points);
         }
-        gameOverScreen.SetActive(true);
+
+        hidePlayerCanvasElements();
+
+    }
+
+    public void hidePlayerCanvasElements()
+    {
         localPlayer.GetComponent<MyPlayer>().healthBar.SetActive(false);
         localPlayer.GetComponent<MyPlayer>().chatSystem.SetActive(false);
         localPlayer.GetComponent<MyPlayer>().pointsParent.SetActive(false);
         timer.text = "";
-
     }
 
     public void OnClick_GoBackToLobby()

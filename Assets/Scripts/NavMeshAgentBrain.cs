@@ -21,7 +21,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public string lastHitPlayer;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -30,16 +30,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if(animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
 
-        if (navMeshAgent == null)
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-        }
-
+        
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Z_FallingBack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -49,9 +41,17 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             }
 
             if (ShouldIMove && !death)
-            {
+            { 
+                if (Point.transform.gameObject.activeSelf)
+                {
 
-                GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
+                    GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
+                }
+                else
+                {
+                    stop();
+                }
+                
             }
 
         }
@@ -71,6 +71,15 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public void move()
     {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
         animator.SetBool("run", true);
         animator.SetBool("attack", false);
         ShouldIMove = true;
@@ -81,6 +90,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public void stop()
     {
+        print("STOPED");
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
         animator.SetBool("run", false);
         animator.SetBool("attack", false);
         ShouldIMove = false;
@@ -91,7 +110,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
 
     [PunRPC]
-    public void GetDamageZombie(float amount, int lastHitPlayer)
+    public void GetDamageZombie(float amount, string username)
     {
         if (!death)
         {
@@ -100,7 +119,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
             if (health <= 0)
             {
-                GetPlayer(lastHitPlayer);
+                GetPlayer(username);
                 Death();
             }
         }
@@ -136,15 +155,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
            
     }
 
-    GameObject GetPlayer(int idObject)
+    GameObject GetPlayer(string namePlayer)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
-            player.GetComponent<MyPlayer>().teamPoints += this.points;
-            if (player.GetInstanceID() == idObject)
+            
+            player.GetComponentInParent<MyPlayer>().teamPoints += this.points;
+            if (player.GetComponentInParent<PhotonView>().Owner.NickName == namePlayer)
             {
-                player.GetComponent<MyPlayer>().points += this.points;
+                player.GetComponentInParent<MyPlayer>().points += this.points;
             }
         }
         return null;
@@ -155,13 +175,22 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            Point.GetComponent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, transform.gameObject);
+            Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
         }
         
     }
 
     public void ReachTarget()
     {
+         if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
         transform.LookAt(Point.transform);
         ShouldIMove = false;
         navMeshAgent.isStopped = true;
@@ -169,6 +198,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         animator.SetBool("run", false);
         animator.SetBool("attack", true);
         Attacking = true;
+    }
+
+    [PunRPC]
+    public void StopZombieFromPlayer()
+    {
+        stop();
     }
 
 

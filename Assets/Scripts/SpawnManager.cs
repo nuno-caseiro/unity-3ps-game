@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient && transform.gameObject.activeSelf)
+        if (PhotonNetwork.IsMasterClient && transform.gameObject.activeSelf && GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             spawnEnemy();
         }

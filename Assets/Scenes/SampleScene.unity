@@ -244,7 +244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -805, y: 468.486}
+  m_AnchoredPosition: {x: -805, y: 398.91943}
   m_SizeDelta: {x: 199.643, y: 82.324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &75663379
@@ -3906,7 +3906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &873107175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6088,7 +6088,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -629, y: 28}
-  m_SizeDelta: {x: 660.11, y: 58.855}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1345202184
 MonoBehaviour:
@@ -7828,7 +7828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000076294, y: 311}
+  m_AnchoredPosition: {x: 0.000076294, y: 357.97156}
   m_SizeDelta: {x: 330.926, y: 85.813}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768793114
@@ -8360,7 +8360,7 @@ MonoBehaviour:
   localPlayer: {fileID: 0}
   running: 0
   timer: {fileID: 1461280865}
-  teamScore: {fileID: 0}
+  myScore: {fileID: 1768793112}
   deathScreen: {fileID: 1327818395}
   spectateContainer: {fileID: 1345202182}
   spectateObject: {fileID: 7565220436504177269, guid: 64e4d355812ae49bc970a3055ad0011e,

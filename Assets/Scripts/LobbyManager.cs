@@ -134,6 +134,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = userName.text;
 
         RoomOptions roomOptions = new RoomOptions();
+        
         roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(createRoom.text, roomOptions, TypedLobby.Default);
     }
@@ -179,6 +180,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             if (count == 2)
             {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
                 PhotonNetwork.LoadLevel(1);
                 //lobbyText.text = "All Set: Play the game scene";
             }

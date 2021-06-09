@@ -35,7 +35,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     public Image fillImage;
 
     private float playerHealth = 1f;
-    private float damage = 0.01f;
+    private float damage = 0.1f;
 
     private ParticleSystem muzzle;
 
@@ -186,7 +186,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
             if (hit.transform.tag == "Zombie")
             { 
-                hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.All, damage, transform.gameObject.GetInstanceID());
+                hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.NickName);
             }
 
 
@@ -227,15 +227,16 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     }
 
     [PunRPC]
-    public void GetDamage(float amount, GameObject zombie)
+    public void GetDamage(float amount, int zombieId)
     {
         print("AMOUNT ZOMBIE ON PLAYER:" + amount);
         playerHealth -= amount;
 
         if(playerHealth <=0 && photonView.IsMine)
         {
-            zombie.GetComponent<NavMeshAgentBrain>().stop();
+
             Death();
+            GetZombie(zombieId);
         }
 
         if (photonView.IsMine)
@@ -244,13 +245,18 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         }
     }
 
+
+
     [PunRPC] 
     void HideplayerMesh()
     {
         isDead = true;
         transform.Find("Soldier").gameObject.SetActive(false);
+        transform.Find("RigAss").gameObject.SetActive(false);
+        transform.Find("Rig").gameObject.SetActive(false);
+        transform.Find("Sounds").gameObject.SetActive(false);
 
-        
+
     }
 
     void Death()
@@ -274,6 +280,13 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             GameObject.Find("GameManager").GetComponent<GameManager>().ShowWinScreen();
         }
         
+    }
+
+    public void GetZombie(int idObject)
+    {
+        GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
+        PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+       
     }
 
 
