@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-<<<<<<< Updated upstream
 using System.Linq;
-=======
->>>>>>> Stashed changes
 
 public class NavMeshAgentSmallTrigger : MonoBehaviour
 {
@@ -27,11 +24,7 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         {
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player" )
             {
-<<<<<<< Updated upstream
                 GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-=======
-                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
->>>>>>> Stashed changes
                 GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
                 //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
             }
@@ -57,11 +50,7 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             print("Small Exit");
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
-<<<<<<< Updated upstream
                 GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-=======
-                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
->>>>>>> Stashed changes
                 //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                 GetComponentInParent<NavMeshAgentBrain>().move();
             }
