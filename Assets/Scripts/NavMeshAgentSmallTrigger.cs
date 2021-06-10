@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class NavMeshAgentSmallTrigger : MonoBehaviour
 {
@@ -22,7 +23,9 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         {
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player" )
             {
+                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
                 GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
+                //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
             }
         }
     }
@@ -47,6 +50,7 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
                 GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
+                //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                 GetComponentInParent<NavMeshAgentBrain>().move();
             }
         }

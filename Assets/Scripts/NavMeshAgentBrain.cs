@@ -69,61 +69,69 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         transform.gameObject.SetActive(true);
     }
 
+ 
     public void move()
     {
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+            }
 
-        if (navMeshAgent == null)
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-        }
-        animator.SetBool("run", true);
-        animator.SetBool("attack", false);
-        ShouldIMove = true;
-        navMeshAgent.isStopped = false;
-        Attacking = false;
+            if (navMeshAgent == null)
+            {
+                navMeshAgent = GetComponent<NavMeshAgent>();
+            }
+            animator.SetBool("run", true);
+            animator.SetBool("attack", false);
+            ShouldIMove = true;
+            navMeshAgent.isStopped = false;
+            Attacking = false;
+        
     }
 
 
+    
     public void stop()
     {
-        print("STOPED");
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+            print("STOPED");
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+            }
 
-        if (navMeshAgent == null)
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-        }
-        animator.SetBool("run", false);
-        animator.SetBool("attack", false);
-        ShouldIMove = false;
-        navMeshAgent.isStopped = true;
-        navMeshAgent.velocity = Vector3.zero;
-        Attacking = false;
+            if (navMeshAgent == null)
+            {
+                navMeshAgent = GetComponent<NavMeshAgent>();
+            }
+            animator.SetBool("run", false);
+            animator.SetBool("attack", false);
+            ShouldIMove = false;
+            navMeshAgent.isStopped = true;
+            navMeshAgent.velocity = Vector3.zero;
+            Attacking = false;
+        
     }
 
 
     [PunRPC]
     public void GetDamageZombie(float amount, string username)
     {
-        if (!death)
+        if (GetComponent<PhotonView>().IsMine)
         {
-            health -= amount;
-
-
-            if (health <= 0)
+            if (!death)
             {
-                GetPlayer(username);
-                Death();
+                health -= amount;
+
+
+                if (health <= 0)
+                {
+                    GetPlayer(username);
+                    Death();
+                }
             }
+
         }
-       
+
 
         /*if (photonView.IsMine)
         {
@@ -158,12 +166,14 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     GameObject GetPlayer(string namePlayer)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
         foreach (GameObject player in players)
         {
-            
+            print(namePlayer);
+            print(points);
             player.GetComponentInParent<MyPlayer>().teamPoints += this.points;
             if (player.GetComponentInParent<PhotonView>().Owner.NickName == namePlayer)
-            {
+            { 
                 player.GetComponentInParent<MyPlayer>().points += this.points;
             }
         }
@@ -180,24 +190,28 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         
     }
 
+    
     public void ReachTarget()
     {
-         if(animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+            }
 
-        if (navMeshAgent == null)
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-        }
-        transform.LookAt(Point.transform);
-        ShouldIMove = false;
-        navMeshAgent.isStopped = true;
-        navMeshAgent.velocity = Vector3.zero;
-        animator.SetBool("run", false);
-        animator.SetBool("attack", true);
-        Attacking = true;
+            if (navMeshAgent == null)
+            {
+                navMeshAgent = GetComponent<NavMeshAgent>();
+            }
+            transform.LookAt(Point.transform);
+            ShouldIMove = false;
+            navMeshAgent.isStopped = true;
+            navMeshAgent.velocity = Vector3.zero;
+            animator.SetBool("run", false);
+            animator.SetBool("attack", true);
+            Attacking = true;
+        
+     
     }
 
     [PunRPC]

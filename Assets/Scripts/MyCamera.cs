@@ -66,11 +66,12 @@ public class MyCamera : MonoBehaviour
     GameObject GetLocalPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+       
         foreach(GameObject player in players)
         {
-            if (player.GetComponent<PhotonView>().IsMine)
-            {
-                return player;
+            if (player.GetComponentInParent<PhotonView>().IsMine)
+            { 
+                return player.transform.parent.gameObject;
             }
         }
         return null;

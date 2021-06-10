@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     {
         int deadPlayers = 0;
         totalPlayers = PhotonNetwork.PlayerList.Length;
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
         {
 
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     void FinishGame()
     { 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
         {
             player.GetPhotonView().RPC("GameOver", RpcTarget.All);
@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
 
         running = false;
         
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         gameOverScreen.SetActive(true);
         foreach (GameObject player in players)
         {

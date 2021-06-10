@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - EnemySpawn
+  - PlayerParent
   layers:
   - Default
   - TransparentFX

@@ -3,57 +3,51 @@
     "m_SelectedPackage": {
         "deviceId": "0255e067735dbfcb",
         "name": "com.Estg.Project",
-        "processId": 19592,
+        "processId": 12721,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 12204,
+            "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 7497,
+            "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 10689,
+            "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
             "name": "com.google.android.googlequicksearchbox",
-            "processId": 24174,
+            "processId": 5727,
             "exited": false
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 12691,
+            "processId": 11681,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 15165,
+            "processId": 12177,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
-            "processId": 15951,
-            "exited": true
-        },
-        {
-            "deviceId": "0255e067735dbfcb",
-            "name": "com.Estg.Project",
-            "processId": 16386,
-            "exited": true
-        },
-        {
-            "deviceId": "0255e067735dbfcb",
-            "name": "com.Estg.Project",
-            "processId": 18519,
-            "exited": true
-        },
-        {
-            "deviceId": "0255e067735dbfcb",
-            "name": "com.Estg.Project",
-            "processId": 18964,
-            "exited": false
-        },
-        {
-            "deviceId": "0255e067735dbfcb",
-            "name": "com.Estg.Project",
-            "processId": 19592,
+            "processId": 12721,
             "exited": false
         }
     ],
