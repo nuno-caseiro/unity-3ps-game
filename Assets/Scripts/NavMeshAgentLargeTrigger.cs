@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 using UnityEngine.UI;
+using System.Linq;
 public class NavMeshAgentLargeTrigger : MonoBehaviourPun
 {
 
@@ -20,7 +21,7 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
                 
-                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
+                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                 GetComponentInParent<NavMeshAgentBrain>().move();
             }
         }
@@ -34,12 +35,24 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
             {
                 if (!GetComponentInParent<NavMeshAgentBrain>().ShouldIMove && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
                 {
-                    GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                     GetComponentInParent<NavMeshAgentBrain>().move();
 
                 }
             }
         }
+    }
+
+    private GameObject getClosestTarget()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 1)
+        {
+            return players[0];
+        }
+
+        GameObject closest = players.OrderBy(go => (transform.position - go.transform.position).sqrMagnitude).First();
+        return closest;
     }
 
 }

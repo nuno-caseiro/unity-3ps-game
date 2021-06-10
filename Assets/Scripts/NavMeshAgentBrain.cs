@@ -116,19 +116,18 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     [PunRPC]
     public void GetDamageZombie(float amount, string username)
     {
-        if (GetComponent<PhotonView>().IsMine)
-        {
+       
             if (!death)
             {
                 health -= amount;
-
+                print(health);
 
                 if (health <= 0)
                 {
                     GetPlayer(username);
                     Death();
                 }
-            }
+            
 
         }
 
@@ -163,18 +162,20 @@ public class NavMeshAgentBrain : MonoBehaviourPun
            
     }
 
+    
     GameObject GetPlayer(string namePlayer)
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        print(namePlayer);
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         
         foreach (GameObject player in players)
         {
-            print(namePlayer);
-            print(points);
-            player.GetComponentInParent<MyPlayer>().teamPoints += this.points;
-            if (player.GetComponentInParent<PhotonView>().Owner.NickName == namePlayer)
+            print(player.GetComponent<PhotonView>().Owner.NickName);
+           
+            player.GetComponent<MyPlayer>().teamPoints += this.points;
+            if (player.GetComponent<PhotonView>().Owner.NickName == namePlayer)
             { 
-                player.GetComponentInParent<MyPlayer>().points += this.points;
+                player.GetComponent<MyPlayer>().points += this.points;
             }
         }
         return null;
@@ -185,7 +186,11 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
+            if (GetComponent<PhotonView>().IsMine)
+            {
+                Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
+            }
+            
         }
         
     }

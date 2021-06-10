@@ -33,8 +33,8 @@ public class SpawnManager : MonoBehaviour
                 timerSpawnEnemy = 0;
                 float x = Random.Range(-219, 304);
                 float z = Random.Range(-349, 288);
-            //Vector3 newPosition = new Vector3(x, transform.position.y, z);
-            Vector3 newPosition = new Vector3(-115, 1, -160);
+            Vector3 newPosition = new Vector3(x, transform.position.y, z);
+            //Vector3 newPosition = new Vector3(-115, 1, -160);
             GameObject zombie1 = GameObject.Find("PoolManager").GetComponent<PoolManager>().GetZombie();
                 if (zombie1 != null)
                 {

@@ -229,20 +229,23 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     [PunRPC]
     public void GetDamage(float amount, int zombieId)
     {
-        print("AMOUNT ZOMBIE ON PLAYER:" + amount);
-        playerHealth -= amount;
-
-        if(playerHealth <=0 && photonView.IsMine)
-        {
-
-            Death();
-            GetZombie(zombieId);
-        }
-
         if (photonView.IsMine)
         {
+            print("AMOUNT ZOMBIE ON PLAYER:" + amount);
+            playerHealth -= amount;
+
+            if (playerHealth <= 0)
+            {
+
+                Death();
+                GetZombie(zombieId);
+            }
+
+            
             fillImage.fillAmount = playerHealth;
+            
         }
+       
     }
 
 

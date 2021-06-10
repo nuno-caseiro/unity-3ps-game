@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 public class NavMeshAgentSmallTrigger : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         {
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player" )
             {
-                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
+                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                 GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
                 //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
             }
@@ -49,11 +50,23 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             print("Small Exit");
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
             {
-                GetComponentInParent<NavMeshAgentBrain>().Point = other.gameObject;
+                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                 //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                 GetComponentInParent<NavMeshAgentBrain>().move();
             }
         }
         
+    }
+
+    private GameObject getClosestTarget()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 1)
+        {
+            return players[0];
+        }
+
+        GameObject closest = players.OrderBy(go => (transform.position - go.transform.position).sqrMagnitude).First();
+        return closest;
     }
 }
