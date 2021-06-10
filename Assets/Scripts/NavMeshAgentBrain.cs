@@ -116,11 +116,19 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     [PunRPC]
     public void GetDamageZombie(float amount, string username)
     {
+<<<<<<< Updated upstream
        
             if (!death)
             {
                 health -= amount;
                 print(health);
+=======
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            if (!death)
+            {
+                health -= amount;
+>>>>>>> Stashed changes
 
                 if (health <= 0)
                 {
@@ -129,6 +137,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                 }
             
 
+<<<<<<< Updated upstream
+=======
+                if (health <= 0)
+                {
+                    GetPlayer(username);
+                    Death();
+                }
+            }
+
+>>>>>>> Stashed changes
         }
 
 
@@ -165,6 +183,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     
     GameObject GetPlayer(string namePlayer)
     {
+<<<<<<< Updated upstream
         print(namePlayer);
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         
@@ -176,6 +195,18 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             if (player.GetComponent<PhotonView>().Owner.NickName == namePlayer)
             { 
                 player.GetComponent<MyPlayer>().points += this.points;
+=======
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
+        foreach (GameObject player in players)
+        {
+            print(namePlayer);
+            print(points);
+            player.GetComponentInParent<MyPlayer>().teamPoints += this.points;
+            if (player.GetComponentInParent<PhotonView>().Owner.NickName == namePlayer)
+            { 
+                player.GetComponentInParent<MyPlayer>().points += this.points;
+>>>>>>> Stashed changes
             }
         }
         return null;
