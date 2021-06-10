@@ -116,8 +116,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     [PunRPC]
     public void GetDamageZombie(float amount, string username)
     {
-       
-            if (!death)
+        if (!death)
             {
                 health -= amount;
                 print(health);
@@ -127,8 +126,6 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                     GetPlayer(username);
                     Death();
                 }
-            
-
         }
 
 

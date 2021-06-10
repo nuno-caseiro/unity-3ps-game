@@ -1,9 +1,15 @@
 {
     "m_SelectedDeviceId": "0255e067735dbfcb",
     "m_SelectedPackage": {
+<<<<<<< HEAD
         "deviceId": "",
         "name": "",
         "processId": 0,
+=======
+        "deviceId": "0255e067735dbfcb",
+        "name": "com.Estg.Project",
+        "processId": 19592,
+>>>>>>> master
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,38 +17,71 @@
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.google.android.googlequicksearchbox",
-            "processId": 5727,
+            "processId": 24174,
             "exited": false
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
+<<<<<<< HEAD
             "processId": 21631,
+=======
+            "processId": 12691,
+>>>>>>> master
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
+<<<<<<< HEAD
             "processId": 21976,
+=======
+            "processId": 15165,
+>>>>>>> master
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
+<<<<<<< HEAD
             "processId": 22286,
+=======
+            "processId": 15951,
+>>>>>>> master
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
+<<<<<<< HEAD
             "processId": 22610,
+=======
+            "processId": 16386,
+>>>>>>> master
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.Estg.Project",
+<<<<<<< HEAD
             "processId": 22848,
             "exited": true
+=======
+            "processId": 18519,
+            "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 18964,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.Estg.Project",
+            "processId": 19592,
+            "exited": false
+>>>>>>> master
         }
     ],
     "m_Tags": {
