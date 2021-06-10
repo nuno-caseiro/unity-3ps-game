@@ -178,7 +178,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (count == 2)
+            if (count == 1)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;

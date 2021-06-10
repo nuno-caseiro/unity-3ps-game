@@ -172,7 +172,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         transform.LookAt(Camera.main.transform);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if(Physics.Raycast(ray, out hit, 100f))
         {
 
             PhotonView pv = hit.transform.GetComponent<PhotonView>();

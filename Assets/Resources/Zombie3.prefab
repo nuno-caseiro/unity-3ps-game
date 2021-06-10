@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 2950390772837829751}
   - component: {fileID: 2941386501529705720}
   - component: {fileID: 5025616634829998599}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: HealthFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 2475283373529904911}
   m_Layer: 2
   m_Name: SmallTrigger
-  m_TagString: Zombie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1105,9 +1105,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6915863935060190749}
   - component: {fileID: 1216688472153998210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Zombie1
-  m_TagString: Zombie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1275,7 +1275,7 @@ GameObject:
   - component: {fileID: 6744728667122711484}
   - component: {fileID: 8225156406748842943}
   - component: {fileID: 6623627907320248678}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1633,7 +1633,7 @@ GameObject:
   - component: {fileID: 5034529353498728422}
   m_Layer: 2
   m_Name: LargeTrigger
-  m_TagString: Zombie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1816,7 +1816,7 @@ GameObject:
   - component: {fileID: 6201095571783922607}
   m_Layer: 0
   m_Name: Base HumanPelvis
-  m_TagString: Zombie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
