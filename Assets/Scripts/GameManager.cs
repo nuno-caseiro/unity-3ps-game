@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 600;
         sceneCam.enabled = false;
+       
         localPlayer = PhotonNetwork.Instantiate(player.name, playerSpawnPosition.position,playerSpawnPosition.rotation);
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
         if (nPlayers != PhotonNetwork.PlayerList.Length)
         {
             //roomCreator = null;
+            PhotonNetwork.Disconnect();
             PhotonNetwork.LeaveRoom(true);
             PhotonNetwork.LoadLevel(0);
         }

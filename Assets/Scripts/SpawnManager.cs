@@ -34,20 +34,26 @@ public class SpawnManager : MonoBehaviour
                 float x = Random.Range(-219, 304);
                 float z = Random.Range(-349, 288);
             //Vector3 newPosition = new Vector3(x, transform.position.y, z);
+            x = -115;
+            z = -160;
             Vector3 newPosition = new Vector3(-115, 1, -160);
             GameObject zombie1 = GameObject.Find("PoolManager").GetComponent<PoolManager>().GetZombie();
-                if (zombie1 != null)
+            
+            if (zombie1 != null)
+            {
+                print(zombie1.GetComponent<NavMeshAgentBrain>().death);
+                if (zombie1.GetComponent<NavMeshAgentBrain>().death)
                 {
-                    
-                    zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, newPosition);
+
+                    zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, x, transform.position.y, z);
                     //zombie1.GetComponent<NavMeshAgentBrain>().ReBirth(newPosition);
                     print("NEW ZOMBIE FROM LIST");
                 }
-                else
-                {
-                    PhotonNetwork.Instantiate(enemy.name, newPosition, transform.rotation);
-                }
-
+            }
+            else
+            {
+                PhotonNetwork.Instantiate(enemy.name, newPosition, transform.rotation);
+            }
 
             }
     }

@@ -60,8 +60,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 break;
 
         }
-        print(change.value);
-        print(maxPlayers);
+        
     }
 
     public void OnClickMainMenu_Start()
