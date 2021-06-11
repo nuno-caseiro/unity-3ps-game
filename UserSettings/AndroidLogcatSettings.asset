@@ -2,8 +2,8 @@
     "m_SelectedDeviceId": "L2N4C19926018730",
     "m_SelectedPackage": {
         "deviceId": "L2N4C19926018730",
-        "name": "com.Estg.Project",
-        "processId": 16737,
+        "name": "com.MEICM.ZombieBay",
+        "processId": 6718,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -18,6 +18,12 @@
             "deviceId": "L2N4C19926018730",
             "name": "com.Estg.Project",
             "processId": 16737,
+            "exited": false
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 6718,
             "exited": false
         }
     ],
