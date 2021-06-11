@@ -12,6 +12,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject roomUI;
     public GameObject connectUI;
     public GameObject lobbyUI;
+    public GameObject mainMenuUI;
 
     [Header("---UI Text----")]
     public Text statusText;
@@ -26,6 +27,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public InputField userName;
     public Button startButton;
 
+    public Dropdown dropdown;
+
+    public byte maxPlayers = 2;
 
     //MANAGER 2
     public GameObject playersContainer;
@@ -34,7 +38,49 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         Application.targetFrameRate = 600;
+        dropdown.GetComponent<Dropdown>();
+        dropdown.onValueChanged.AddListener(delegate {
+            DropdownValueChanged(dropdown);
+        });
     }
+
+    void DropdownValueChanged(Dropdown change)
+    {
+
+        switch (change.value)
+        {
+            case 0:
+                maxPlayers = 2;
+                break;
+            case 1:
+                maxPlayers = 3;
+                break;
+            case 2:
+                maxPlayers = 4;
+                break;
+
+        }
+        print(change.value);
+        print(maxPlayers);
+    }
+
+    public void OnClickMainMenu_Start()
+    {
+        mainMenuUI.SetActive(false);
+    }
+
+    public void MaxPlayer1()
+    {
+        maxPlayers = 1;
+        if (string.IsNullOrEmpty(userName.text))
+        {
+            userName.text = "User" + Random.Range(100, 999);
+        }
+
+        PhotonNetwork.LocalPlayer.NickName = userName.text;
+        PhotonNetwork.JoinRandomRoom();
+    }
+
     private void Awake()
     { 
         PhotonNetwork.ConnectUsingSettings();
@@ -74,23 +120,34 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         //base.OnJoinedRoom();
         //PhotonNetwork.LoadLevel(1);
-        roomUI.SetActive(false);
-        lobbyUI.SetActive(true);
-
-        foreach(Player p in PhotonNetwork.CurrentRoom.Players.Values)
+        if(maxPlayers == 1)
         {
-            AddPlayer(PhotonNetwork.LocalPlayer.NickName);
-        }
-        //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            startBtnText.text = "Waiting for players";
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.LoadLevel(1);
         }
         else
         {
-            startBtnText.text = "Ready!";
+            roomUI.SetActive(false);
+            lobbyUI.SetActive(true);
+
+            foreach (Player p in PhotonNetwork.CurrentRoom.Players.Values)
+            {
+                AddPlayer(PhotonNetwork.LocalPlayer.NickName);
+            }
+            //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                startBtnText.text = "Waiting for players";
+            }
+            else
+            {
+                startBtnText.text = "Ready!";
+            }
         }
+
+     
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -106,7 +163,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //base.OnJoinRandomFailed(returnCode, message);
         int roomName = Random.Range(0, 10000);
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4;
+        roomOptions.MaxPlayers = maxPlayers;
         PhotonNetwork.CreateRoom(roomName.ToString(), roomOptions, TypedLobby.Default);
     }
 
@@ -135,7 +192,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions();
         
-        roomOptions.MaxPlayers = 4;
+        roomOptions.MaxPlayers = maxPlayers;
         PhotonNetwork.CreateRoom(createRoom.text, roomOptions, TypedLobby.Default);
     }
 
@@ -149,7 +206,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = userName.text;
 
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4;
+        roomOptions.MaxPlayers = maxPlayers;
         PhotonNetwork.JoinOrCreateRoom(joinRoom.text, roomOptions, TypedLobby.Default);
 
     }
@@ -178,7 +235,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (count == 1)
+            if (count == maxPlayers)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
@@ -209,7 +266,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 count++;
-                if (count == 2)
+                if (count == maxPlayers)
                     startBtnText.text = "Start !";
                 else
                     startBtnText.text = "Only " + count + "/ 4 players are ready";

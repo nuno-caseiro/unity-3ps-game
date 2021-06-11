@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using Photon.Realtime;
 using System;
 
 
@@ -25,8 +26,6 @@ public class GameManager : MonoBehaviour
     public GameObject myScore;
 
 
-   
-
     int totalPlayers = 0;
 
     public GameObject deathScreen;
@@ -36,6 +35,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject finishContainer;
     public GameObject finishPlayerObject;
+
+    private int nPlayers;
 
 
     // Start is called before the first frame update
@@ -58,6 +59,8 @@ public class GameManager : MonoBehaviour
               PhotonNetwork.Instantiate(enemy.name, enemySpawnPosition1.position, enemySpawnPosition1.rotation);
           }*/
 
+        nPlayers  = PhotonNetwork.PlayerList.Length;
+
         running = true;
         
     }
@@ -66,6 +69,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //back buton go main menu por exemplo
+        if (nPlayers != PhotonNetwork.PlayerList.Length)
+        {
+            //roomCreator = null;
+            PhotonNetwork.LeaveRoom(true);
+            PhotonNetwork.LoadLevel(0);
+        }
+
         calculateTime();
         
     }

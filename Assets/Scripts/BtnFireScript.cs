@@ -9,10 +9,10 @@ public class BtnFireScript : MonoBehaviour, IPointerDownHandler,IPointerUpHandle
 
     public void Update()
     {
-        /*if (firing)
+        if (firing)
         {
             player.Fire();
-        }*/
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
