@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "L2N4C19926018730",
         "name": "com.Estg.Project",
-        "processId": 6778,
+        "processId": 16737,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,12 @@
             "deviceId": "L2N4C19926018730",
             "name": "com.Estg.Project",
             "processId": 6778,
+            "exited": false
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.Estg.Project",
+            "processId": 16737,
             "exited": false
         }
     ],
