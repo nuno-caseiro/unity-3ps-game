@@ -17,7 +17,12 @@ public class PoolManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+    }
+
+    public void AddZombie(GameObject z)
+    {
+        zombieList.Enqueue(z);
     }
 
     public GameObject GetZombie()

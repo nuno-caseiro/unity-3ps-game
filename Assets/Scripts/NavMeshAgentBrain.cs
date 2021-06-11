@@ -31,47 +31,50 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     void Update()
     {
 
-        
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Z_FallingBack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                GetComponent<PhotonView>().RPC("DestroyZombie", RpcTarget.All);
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Z_FallingBack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                {
+                    GetComponent<PhotonView>().RPC("DestroyZombie", RpcTarget.All);
+
+                }
+
+                if (ShouldIMove && !death)
+                {
+                    if (Point.transform.gameObject.activeSelf)
+                    {
+
+                        GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
+                    }
+                    else
+                    { 
+                        stop();
+                    }
+
+                }
 
             }
-
-            if (ShouldIMove && !death)
-            { 
-                if (Point.transform.gameObject.activeSelf)
-                {
-
-                    GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
-                }
-                else
-                {
-                    stop();
-                }
-                
-            }
-
         }
+     
 
      
     }
 
     [PunRPC]
-    public void ReBirth(Vector3 newPosition)
+    public void ReBirth(float x , float y, float z)
     {
-        transform.position = newPosition;
+        transform.position = new Vector3(x,y,z);
         health = 1;
         death = false;
         ShouldIMove = false;
         transform.gameObject.SetActive(true);
     }
 
- 
     public void move()
     {
+        
             if (animator == null)
             {
                 animator = GetComponent<Animator>();
@@ -83,14 +86,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             }
             animator.SetBool("run", true);
             animator.SetBool("attack", false);
+
+     
             ShouldIMove = true;
             navMeshAgent.isStopped = false;
             Attacking = false;
         
+     
+        
     }
 
-
-    
     public void stop()
     {
             print("STOPED");
@@ -105,7 +110,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             }
             animator.SetBool("run", false);
             animator.SetBool("attack", false);
-            ShouldIMove = false;
+
+        ShouldIMove = false;
             navMeshAgent.isStopped = true;
             navMeshAgent.velocity = Vector3.zero;
             Attacking = false;
@@ -154,7 +160,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         GetComponent<PhotonView>().transform.gameObject.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
-            GameObject.Find("PoolManager").GetComponent<PoolManager>().zombieList.Enqueue(transform.gameObject);
+            GameObject.Find("PoolManager").GetComponent<PoolManager>().AddZombie(transform.gameObject);
         }
            
     }
@@ -192,7 +198,6 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         
     }
 
-    
     public void ReachTarget()
     {
         

@@ -6,6 +6,8 @@ using System.Linq;
 
 public class NavMeshAgentSmallTrigger : MonoBehaviour
 {
+    public float minDistance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,20 +17,23 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
-        {
-            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player" )
+        
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
-                //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
+                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+                {
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                    GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
+                    //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
+                }
             }
-        }
+        
+     
     }
 
    /* public void OnTriggerStay(Collider other)
@@ -45,7 +50,8 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
+        
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             print("Small Exit");
             if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")

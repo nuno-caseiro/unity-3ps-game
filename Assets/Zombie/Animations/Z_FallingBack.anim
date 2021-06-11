@@ -49370,4 +49370,12 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1.1333333
+    functionName: DestroyZombie
+    data: 
+    objectReferenceParameter: {fileID: 4803014352389650695, guid: 06cb2b131fe009c47a523671a8fa9ed8,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

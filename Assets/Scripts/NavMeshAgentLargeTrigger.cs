@@ -11,34 +11,44 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
-        GetComponentInParent<NavMeshAgentBrain>().stop();
+        
+            GetComponentInParent<NavMeshAgentBrain>().stop();
+            //GetComponentInParent<PhotonView>().RPC("stop", RpcTarget.All);
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
-        {
-            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+       
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                
-                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                GetComponentInParent<NavMeshAgentBrain>().move();
+                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+                {
+
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                    GetComponentInParent<NavMeshAgentBrain>().move();
+                    //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
+                }
             }
-        }
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
-        {
-            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+        
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                if (!GetComponentInParent<NavMeshAgentBrain>().ShouldIMove && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
+                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
                 {
-                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                    GetComponentInParent<NavMeshAgentBrain>().move();
+                    if (!GetComponentInParent<NavMeshAgentBrain>().ShouldIMove && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
+                    {
+                        GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                        GetComponentInParent<NavMeshAgentBrain>().move();
+                        //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
 
-                }
+
+                    }
+                
             }
         }
     }
