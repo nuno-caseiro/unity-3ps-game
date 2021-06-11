@@ -70,12 +70,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //back buton go main menu por exemplo
+        print(PhotonNetwork.PlayerList.Length);
         if (nPlayers != PhotonNetwork.PlayerList.Length)
         {
             //roomCreator = null;
-            PhotonNetwork.Disconnect();
-            PhotonNetwork.LeaveRoom(true);
-            PhotonNetwork.LoadLevel(0);
+            //PhotonNetwork.Disconnect();
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.LoadLevel(0);
+            }
+            
+            return;
         }
 
         calculateTime();
@@ -204,7 +209,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClick_GoBackToLobby()
     {
-        PhotonNetwork.LeaveRoom(true);
+        //PhotonNetwork.LeaveRoom(true);
         PhotonNetwork.LoadLevel(0);
         
     }

@@ -42,25 +42,29 @@ public class MyCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!playerPhotonView.IsMine)
+        if (target != null)
         {
-            return;
+            if (!playerPhotonView.IsMine)
+            {
+                return;
+            }
+
+            Yaxis += touchField.TouchDist.x * RotationSensitivity;
+            Xaxis -= touchField.TouchDist.y * RotationSensitivity;
+
+            Xaxis = Mathf.Clamp(Xaxis, RotationMin, RotationMax);
+
+            targetRotation = Vector3.SmoothDamp(targetRotation, new Vector3(Xaxis, Yaxis), ref currentVel, smoothTime);
+            transform.eulerAngles = targetRotation;
+
+            //transform forward - direcao do objeto
+
+            Vector3 _offset = target.position - transform.forward * distanceFromPlayer;
+            _offset.y = target.position.y + 3f;
+
+            transform.position = _offset;
         }
-
-        Yaxis += touchField.TouchDist.x * RotationSensitivity;
-        Xaxis -= touchField.TouchDist.y * RotationSensitivity;
-       
-        Xaxis = Mathf.Clamp(Xaxis, RotationMin, RotationMax);
-        
-        targetRotation = Vector3.SmoothDamp(targetRotation, new Vector3(Xaxis, Yaxis), ref currentVel, smoothTime); 
-        transform.eulerAngles = targetRotation;
-
-        //transform forward - direcao do objeto
-
-        Vector3 _offset = target.position - transform.forward * distanceFromPlayer;
-        _offset.y = target.position.y + 3f;
-        
-        transform.position = _offset;
+     
     }
 
     GameObject GetLocalPlayer()
