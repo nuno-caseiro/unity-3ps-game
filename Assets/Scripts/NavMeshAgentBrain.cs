@@ -172,7 +172,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     
     GameObject GetPlayer(string namePlayer)
     {
-        print(namePlayer);
+        
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         
         foreach (GameObject player in players)

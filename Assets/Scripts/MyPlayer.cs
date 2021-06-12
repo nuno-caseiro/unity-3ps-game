@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using Photon.Realtime;
+
 public class MyPlayer : MonoBehaviourPun//, IPunObservable
 {
     public float moveSpeed = 3f;
@@ -234,7 +236,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             print("AMOUNT ZOMBIE ON PLAYER:" + amount);
             playerHealth -= amount;
 
-            if (playerHealth <= 0)
+            if (playerHealth <= 0 && !isDead)
             {
 
                 Death();
@@ -291,6 +293,17 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
        
     }
+
+    [PunRPC]
+    public void callUpdateSpectate()
+    {
+        if (isDead)
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().updateSpectate();
+        }
+    }
+
+   
 
 
 }

@@ -121,9 +121,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.LoadLevel(1);
         if(maxPlayers == 1)
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsVisible = false;
+           
             PhotonNetwork.LoadLevel(1);
+
         }
         else
         {
@@ -132,7 +132,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             foreach (Player p in PhotonNetwork.CurrentRoom.Players.Values)
             {
-                AddPlayer(PhotonNetwork.LocalPlayer.NickName);
+                //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
+                AddPlayer(p.NickName);
             }
             //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
 

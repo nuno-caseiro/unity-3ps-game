@@ -7,12 +7,17 @@ using UnityEngine.UI;
 using System.Linq;
 public class NavMeshAgentLargeTrigger : MonoBehaviourPun
 {
+    private NavMeshAgentBrain navMeshAgentBrain;
+    private void Awake()
+    {
+        navMeshAgentBrain = GetComponentInParent<NavMeshAgentBrain>();
+    }
 
 
     private void OnTriggerExit(Collider other)
     {
-        
-            GetComponentInParent<NavMeshAgentBrain>().stop();
+
+        navMeshAgentBrain.stop();
             //GetComponentInParent<PhotonView>().RPC("stop", RpcTarget.All);
         
     }
@@ -25,8 +30,8 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
                 if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
                 {
 
-                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                    GetComponentInParent<NavMeshAgentBrain>().move();
+                navMeshAgentBrain.Point = getClosestTarget();
+                navMeshAgentBrain.move();
                     //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                 }
             }
@@ -40,10 +45,10 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
             {
                 if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
                 {
-                    if (!GetComponentInParent<NavMeshAgentBrain>().ShouldIMove && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
+                    if (!navMeshAgentBrain.ShouldIMove && !navMeshAgentBrain.Attacking)
                     {
-                        GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                        GetComponentInParent<NavMeshAgentBrain>().move();
+                    navMeshAgentBrain.Point = getClosestTarget();
+                    navMeshAgentBrain.move();
                         //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
 
 

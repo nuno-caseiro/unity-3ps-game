@@ -20,9 +20,6 @@ public class MyCamera : MonoBehaviour
     Vector3 currentVel;
     public bool enableMobileInputs = false;
     private FixedTouchField touchField;
-    private bool x = false;
-
-    Vector3 _offset;
 
     private void Awake()
     {
