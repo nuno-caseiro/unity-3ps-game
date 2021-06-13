@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
 {
     private float intervalToSpawnEnemy = 10;
     private float timerSpawnEnemy = 0;
-    public GameObject enemy;
+    public GameObject[] enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                PhotonNetwork.Instantiate(enemy.name, newPosition, transform.rotation);
+                PhotonNetwork.Instantiate(enemy[Random.Range(0,2)].name, newPosition, transform.rotation);
             }
 
             }

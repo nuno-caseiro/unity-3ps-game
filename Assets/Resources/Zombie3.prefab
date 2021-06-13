@@ -737,10 +737,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 4.3983793
+  m_Radius: 3.7388148
   m_Height: 8.796759
   m_Direction: 1
-  m_Center: {x: -0.39399934, y: 3.5297005, z: 0.99972725}
+  m_Center: {x: -0.39399934, y: 3.5297005, z: 0.34016418}
 --- !u!114 &2475283373529904911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   death: 0
   health: 1
-  damage: 1
+  damage: 0.001
   points: 10
   lastHitPlayer: 
 --- !u!114 &5808816678327025390
