@@ -26,6 +26,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public InputField joinRoom;
     public InputField userName;
     public Button startButton;
+    public Button practice;
 
     public Dropdown dropdown;
 
@@ -75,7 +76,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             userName.text = "User" + Random.Range(100, 999);
         }
-
+        practice.interactable = false;
         PhotonNetwork.LocalPlayer.NickName = userName.text;
         PhotonNetwork.JoinRandomRoom();
     }
@@ -170,6 +171,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+        print(newPlayer.NickName);
         AddPlayer(newPlayer.NickName);
     }
 

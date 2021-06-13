@@ -57,7 +57,9 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     public Text teamPointsText;
     public float teamPoints = 0;
 
+    private GameManager gameManager;
 
+   
     Rigidbody rb;
     public float fallMultiplayer = 2.5f;
 
@@ -69,6 +71,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
             //crossHairPrefab = Resources.Load("CrosshairCanvas") as GameObject;
             chatSystem.SetActive(true);
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
     }
 
@@ -83,7 +86,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             GameObject.Find("JumpButton").GetComponent<FixedButton>().SetPlayer(this);
             //crossHairPrefab = Instantiate(crossHairPrefab);
             healthBar.SetActive(true);
-            pointsParent.SetActive(true);
+            //pointsParent.SetActive(true);
         }
         else
         {
@@ -113,7 +116,11 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         float verticalMove = joystick.Vertical;
 
         Vector2 moveVector = new Vector2(horizontalMove, verticalMove).normalized;
-        
+
+        if (verticalMove <= 0)
+        {
+            
+        }
 
         if (moveVector != Vector2.zero)
         {
@@ -132,10 +139,12 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
         if (fire)
         {
-            float rotation = Mathf.Atan2(moveVector.x, moveVector.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            //float rotation = Mathf.Atan2(moveVector.x, moveVector.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+
+            float rotation = Mathf.Atan2(0, 1) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * rotation;
         }
-
+      
         float targetSpeed = moveSpeed * moveVector.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedVelocity, 0.02f);
 
@@ -148,12 +157,15 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             myAnimator.SetBool("running", false);
         }
 
-        pointsText.text = points.ToString();
-        teamPointsText.text = teamPoints.ToString();
+        //pointsText.text = points.ToString();
+        //teamPointsText.text = teamPoints.ToString();
 
 
         if (!fire)
+        {
             transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
+        }
+        
 
     }
 
@@ -272,8 +284,9 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         cameraTransform.gameObject.SetActive(false);
 
         myAnimator.SetTrigger("death");
+        
         photonView.RPC("HideplayerMesh", RpcTarget.All);
-        GameObject.Find("GameManager").GetComponent<GameManager>().Spectate();
+        gameManager.Spectate();
 
     }
 
@@ -282,7 +295,9 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     {
         if (photonView.IsMine)
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().ShowWinScreen();
+            gameManager.running = false;
+            gameManager.PopulateScoreScreen(gameManager.finishContainer);
+            gameManager.hidePlayerCanvasElements();
         }
         
     }
@@ -303,7 +318,14 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         }
     }
 
-   
+    [PunRPC]
+    public void refreshPoints()
+    {
+        GameObject.Find("GameManager").GetComponent<GameManager>().updateScoreContainer();
+    }
+
+
+
 
 
 }

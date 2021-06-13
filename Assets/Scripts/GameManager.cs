@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject finishContainer;
     public GameObject finishPlayerObject;
 
+    public GameObject scoreContainer;
+
     private int nPlayers;
 
     int deadPlayers = 0;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         sceneCam.enabled = false;
        
         localPlayer = PhotonNetwork.Instantiate(player.name, playerSpawnPosition.position,playerSpawnPosition.rotation);
+        
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
         print("TOTAL PLAYERS" + totalPlayers);
@@ -68,6 +71,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         nPlayers  = PhotonNetwork.PlayerList.Length;
 
         running = true;
+        
+    }
+
+    void Awake()
+    {
         
     }
 
@@ -89,6 +97,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
        */
+
+        if (scoreContainer.transform.childCount != totalPlayers)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+            if(totalPlayers == players.Length)
+            {
+                PopulateScoreScreen(scoreContainer);
+            }
+            
+        }
+
         calculateTime();
         
     }
@@ -117,37 +136,23 @@ public class GameManager : MonoBehaviourPunCallbacks
             hidePlayerCanvasElements();
         }
 
+        deadPlayers = 0;
         foreach (GameObject player in players)
         {
+            if (player.GetComponent<MyPlayer>().isDead)
+            {
+                deadPlayers++;
+            }
             player.GetPhotonView().RPC("callUpdateSpectate", RpcTarget.All);
         }
 
-
-
-        /* foreach (GameObject player in players)
-         {
-
-             if (!player.GetComponent<MyPlayer>().isDead)
-             {
-                 GameObject so = Instantiate(spectateObject, spectateContainer.transform);
-                 so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;
-                 so.transform.Find("SpectateButton").GetComponent<SpectateButtonClick>().target = player;
-             }
-             else
-             {
-                 deadPlayers++;
-             }
-         }
-       */
-
         print(deadPlayers);
+        print(totalPlayers);
         if (deadPlayers == totalPlayers)
         {
             foreach (GameObject player in players)
             {
-               
-                    player.GetPhotonView().RPC("GameOver", RpcTarget.All);
-                
+                player.GetPhotonView().RPC("GameOver", RpcTarget.All);
 
             }
         }
@@ -160,7 +165,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void updateSpectate()
     {
         print("AQUI");
-        deadPlayers = 0;
         if (localPlayer.GetPhotonView().IsMine && localPlayer.GetComponent<MyPlayer>().isDead && deathScreen.activeSelf)
         {
 
@@ -177,10 +181,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                         so.transform.Find("SpectateButton").GetComponent<SpectateButtonClick>().target = player;
                     }
 
-                }
-                else
-                {
-                    deadPlayers++;
                 }
 
 
@@ -265,30 +265,37 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void ShowWinScreen()
+    public void PopulateScoreScreen(GameObject container)
     {
-
-        running = false;
         
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
-        gameOverScreen.SetActive(true);
+        if (container.gameObject.name.Contains("ScoreContainer"))
+        {
+            scoreContainer.SetActive(true);
+        }
+        else
+        {
+            gameOverScreen.SetActive(true);
+        }
+       
+
         foreach (GameObject player in players)
         {
-            GameObject so = Instantiate(finishPlayerObject, finishContainer.transform);
-            if (player.GetComponent<PhotonView>().IsMine)
-            {
-                so.transform.Find("PlayerName").GetComponent<Text>().text = "You";
-            }
-            else
-            {
-                so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;    
-            }
+            GameObject so = Instantiate(finishPlayerObject, container.transform);
+            so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;
+            /*  if (player.GetComponent<PhotonView>().IsMine)
+              {
+                  so.transform.Find("PlayerName").GetComponent<Text>().text = "You";
+              }
+              else
+              {
+                  so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;    
+              }*/
 
             so.transform.Find("Score").GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
             print(player.GetComponent<MyPlayer>().points);
         }
 
-        hidePlayerCanvasElements();
 
     }
 
@@ -298,6 +305,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         localPlayer.GetComponent<MyPlayer>().chatSystem.SetActive(false);
         localPlayer.GetComponent<MyPlayer>().pointsParent.SetActive(false);
         timer.text = "";
+        scoreContainer.SetActive(false);
     }
 
     public void OnClick_GoBackToLobby()
@@ -321,4 +329,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
       
     }
+
+    [PunRPC]
+    public void updateScoreContainer()
+    {
+        Transform sc = scoreContainer.transform;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach (GameObject player in players)
+        {
+            string playerName = player.GetPhotonView().Owner.NickName;
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (sc.GetChild(i).GetChild(0).GetComponent<Text>().text == playerName)
+                {
+                    sc.GetChild(i).GetChild(1).GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
+                    break;
+                }
+
+            }
+        }
+    }
+
 }

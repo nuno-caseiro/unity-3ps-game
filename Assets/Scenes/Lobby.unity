@@ -414,6 +414,7 @@ MonoBehaviour:
   joinRoom: {fileID: 821795820}
   userName: {fileID: 305139601}
   startButton: {fileID: 275150389}
+  practice: {fileID: 2033464695}
   dropdown: {fileID: 1497003756}
   maxPlayers: 2
   playersContainer: {fileID: 25259753}

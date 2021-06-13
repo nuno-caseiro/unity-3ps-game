@@ -170,7 +170,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     }
 
     
-    GameObject GetPlayer(string namePlayer)
+    void GetPlayer(string namePlayer)
     {
         
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
@@ -179,13 +179,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         {
             print(player.GetComponent<PhotonView>().Owner.NickName);
            
-            player.GetComponent<MyPlayer>().teamPoints += this.points;
+           // player.GetComponent<MyPlayer>().teamPoints += this.points;
             if (player.GetComponent<PhotonView>().Owner.NickName == namePlayer)
             { 
                 player.GetComponent<MyPlayer>().points += this.points;
+                player.GetComponent<PhotonView>().RPC("refreshPoints", RpcTarget.All);
+                return;
             }
         }
-        return null;
+
+        //refresh all player points
     }
 
 
