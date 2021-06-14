@@ -6,7 +6,8 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     public Queue<GameObject> zombieList = new Queue<GameObject>();
-    
+    public Queue<GameObject> bulletList = new Queue<GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,23 @@ public class PoolManager : MonoBehaviour
     {
        
     }
+
+    public void AddBullet(GameObject b)
+    {
+        bulletList.Enqueue(b);
+    }
+
+    public GameObject GetBullet()
+    {
+        if (bulletList.Count > 0)
+        {
+            return bulletList.Dequeue();
+
+        }
+        return null;
+    }
+
+
 
     public void AddZombie(GameObject z)
     {

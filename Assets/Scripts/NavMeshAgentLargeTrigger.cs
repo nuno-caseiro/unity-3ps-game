@@ -17,7 +17,7 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
     private void OnTriggerExit(Collider other)
     {
 
-        navMeshAgentBrain.stop();
+        GetComponentInParent<NavMeshAgentBrain>().stop();
             //GetComponentInParent<PhotonView>().RPC("stop", RpcTarget.All);
         
     }
@@ -27,13 +27,17 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
        
             if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Player")
+            {
+                if (!other.GetComponentInParent<MyPlayer>().isDead)
                 {
 
-                navMeshAgentBrain.Point = getClosestTarget();
-                navMeshAgentBrain.move();
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                    GetComponentInParent<NavMeshAgentBrain>().move();
                     //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                 }
+            }
+                
             }
         
     }
@@ -43,17 +47,19 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
         
             if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
             {
-                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Player")
+            {
+                if (!other.GetComponentInParent<MyPlayer>().isDead)
                 {
                     if (!navMeshAgentBrain.ShouldIMove && !navMeshAgentBrain.Attacking)
                     {
-                    navMeshAgentBrain.Point = getClosestTarget();
-                    navMeshAgentBrain.move();
+                        GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                        GetComponentInParent<NavMeshAgentBrain>().move();
                         //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
 
 
                     }
-                
+                }
             }
         }
     }

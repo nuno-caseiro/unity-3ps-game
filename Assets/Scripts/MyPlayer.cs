@@ -185,8 +185,8 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
         transform.LookAt(Camera.main.transform);
         RaycastHit hit;
-
-        if(Physics.Raycast(ray, out hit, 100f))
+        int layerMask = LayerMask.GetMask("Zombie");
+        if (Physics.Raycast(ray, out hit, 100f, layerMask))
         {
 
             PhotonView pv = hit.transform.GetComponent<PhotonView>();

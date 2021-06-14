@@ -57,7 +57,7 @@ public class MyCamera : MonoBehaviour
             //transform forward - direcao do objeto
 
             Vector3 _offset = target.position - transform.forward * distanceFromPlayer;
-            _offset.y = target.position.y + 3f;
+            _offset.y = target.position.y + 4f;
 
             transform.position = _offset;
         }

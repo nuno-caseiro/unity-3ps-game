@@ -7,12 +7,11 @@ using System.Linq;
 public class NavMeshAgentSmallTrigger : MonoBehaviour
 {
     public float minDistance;
-    private NavMeshAgentBrain navMeshAgentBrain;
+
 
     // Start is called before the first frame update
     void Awake()
     {
-        navMeshAgentBrain = GetComponentInParent<NavMeshAgentBrain>();
     }
 
     // Update is called once per frame
@@ -23,16 +22,20 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        
-            if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
+
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
+        {
+            if (other.gameObject.tag == "Player")
             {
-                if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player" && !navMeshAgentBrain.Attacking)
+                if (!other.GetComponentInParent<MyPlayer>().isDead && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
                 {
-                navMeshAgentBrain.Point = getClosestTarget();
-                navMeshAgentBrain.ReachTarget();
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                  
+                    GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
                     //GetComponentInParent<PhotonView>().RPC("ReachTarget", RpcTarget.All);
                 }
             }
+        }
         
      
     }
@@ -47,10 +50,17 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
 
         }*/
 
-        if (!navMeshAgentBrain.Attacking)
+        if (other.gameObject.tag == "Player")
         {
-            navMeshAgentBrain.Point = getClosestTarget();
-            navMeshAgentBrain.ReachTarget();
+
+            GetComponentInParent<NavMeshAgentBrain>().Look();
+
+            if (!GetComponentInParent<NavMeshAgentBrain>().Attacking)
+            {
+               
+                GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
+            }
         }
     }
 
@@ -61,11 +71,15 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             print("Small Exit");
-            if (!other.GetComponentInParent<MyPlayer>().isDead && other.gameObject.tag == "Player")
+
+            if (other.gameObject.tag == "Player")
             {
-                navMeshAgentBrain.Point = getClosestTarget();
-                //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
-                navMeshAgentBrain.move();
+                if (!other.GetComponentInParent<MyPlayer>().isDead )
+                {
+                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                    //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
+                    GetComponentInParent<NavMeshAgentBrain>().move();
+                }
             }
         }
         

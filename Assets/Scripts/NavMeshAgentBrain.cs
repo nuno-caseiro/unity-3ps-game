@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
-using UnityEngine.UI;
 public class NavMeshAgentBrain : MonoBehaviourPun
 {
     public bool ShouldIMove;
@@ -17,9 +16,14 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     public float health = 1.00f;
     public float damage = 0.01f;
     public float points = 10;
-
+    
 
     public string lastHitPlayer;
+
+    //for shooter zombie
+    private float bulletSpeed = 100f;
+    public GameObject shootPoint;
+    public GameObject bulletPrefab;
     // Start is called before the first frame update
     void Awake()
     {
@@ -57,6 +61,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
             }
         }
+
      
 
      
@@ -91,6 +96,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
      
             ShouldIMove = true;
+
             navMeshAgent.isStopped = false;
             Attacking = false;
         
@@ -100,7 +106,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public void stop()
     {
-            print("STOPED");
+            
             if (animator == null)
             {
                 animator = GetComponent<Animator>();
@@ -113,9 +119,9 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             animator.SetBool("run", false);
             animator.SetBool("attack", false);
 
-        ShouldIMove = false;
+            ShouldIMove = false;
             navMeshAgent.isStopped = true;
-            navMeshAgent.velocity = Vector3.zero;
+            //navMeshAgent.velocity = Vector3.zero;
             Attacking = false;
         
     }
@@ -127,8 +133,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         if (!death)
             {
                 health -= amount;
-                print(health);
-
+              
                 if (health <= 0)
                 {
                     GetPlayer(username);
@@ -177,8 +182,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         
         foreach (GameObject player in players)
         {
-            print(player.GetComponent<PhotonView>().Owner.NickName);
-           
+                      
            // player.GetComponent<MyPlayer>().teamPoints += this.points;
             if (player.GetComponent<PhotonView>().Owner.NickName == namePlayer)
             { 
@@ -220,18 +224,70 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             transform.LookAt(Point.transform);
             ShouldIMove = false;
             navMeshAgent.isStopped = true;
-            navMeshAgent.velocity = Vector3.zero;
+            //navMeshAgent.velocity = Vector3.zero;         
             animator.SetBool("run", false);
             animator.SetBool("attack", true);
             Attacking = true;
         
+        
      
+    }
+
+
+    public void CastBullet()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (transform.gameObject.name.Contains("alien"))
+            {
+                
+                PoolManager pool = GameObject.Find("PoolManager").GetComponent<PoolManager>();
+                GameObject bullet = pool.GetBullet();
+              
+                Vector3 dir = (Point.transform.parent.transform.position - shootPoint.transform.position).normalized;
+                //print(Point.transform.parent.transform.position - shootPoint.transform.position);
+
+                shootPoint.transform.LookAt(dir);
+                if (bullet != null)
+                {
+                    
+                    bullet.transform.position = shootPoint.transform.position;
+                    bullet.transform.rotation = shootPoint.transform.rotation;
+                    bullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
+                    bullet.GetComponent<PhotonView>().RPC("EnableBullet", RpcTarget.All, photonView.ViewID);
+                }
+                else
+                {
+                    print("NEW BULLET");
+                    bullet = PhotonNetwork.Instantiate(bulletPrefab.name, shootPoint.transform.position, shootPoint.transform.rotation);
+                    bullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
+                    bullet.GetComponent<BulletController>().viewId = photonView.ViewID;
+                }
+               
+
+            }
+        }
     }
 
     [PunRPC]
     public void StopZombieFromPlayer()
     {
         stop();
+    }
+
+    public void Look()
+    {
+        if (Point != null)
+        {
+           
+           transform.LookAt(Point.transform.parent.transform);
+            if (shootPoint != null)
+            {
+                shootPoint.transform.LookAt(Point.transform.parent.transform);
+            }
+           
+        }
+        
     }
 
 
