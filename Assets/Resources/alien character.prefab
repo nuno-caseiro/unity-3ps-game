@@ -2079,7 +2079,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -2109,12 +2109,12 @@ MonoBehaviour:
   animator: {fileID: 0}
   navMeshAgent: {fileID: 0}
   death: 0
-  health: 1
+  health: 5
   damage: 0.01
   points: 10
   lastHitPlayer: 
   shootPoint: {fileID: 65339022347768726}
-  bulletPrefab: {fileID: 8977256799440574533, guid: f05c4deea728c4e89af8748985aa6007,
+  bulletPrefab: {fileID: 1000012964112300, guid: 8306882d88a96b64291460c8d7664f4d,
     type: 3}
 --- !u!136 &2455195537034994267
 CapsuleCollider:
@@ -2257,7 +2257,7 @@ Transform:
   m_GameObject: {fileID: 134642100889614331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400116}
   m_RootOrder: 5
@@ -2284,7 +2284,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 20
+  m_Radius: 40
   m_Height: 9.508187
   m_Direction: 1
   m_Center: {x: -0.029747486, y: -0.0015015602, z: -0.0398736}

@@ -6,7 +6,7 @@ using Photon.Pun;
 public class BulletController : MonoBehaviourPun
 {
 
-    private float bulletDamage = 0.001f;
+    private float bulletDamage = 0.05f;
     public int viewId;
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,11 @@ public class BulletController : MonoBehaviourPun
 
     void OnEnable()
     {
-        StartCoroutine(LateCall());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(LateCall());
+        }
+        
     }
 
 

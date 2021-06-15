@@ -2128,6 +2128,7 @@ MonoBehaviour:
   enemy:
   - {fileID: 4803014352389650695, guid: 06cb2b131fe009c47a523671a8fa9ed8, type: 3}
   - {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 3}
+  - {fileID: 2330331922066302638, guid: 13d4c018d66004ee38252c2d4e22be1a, type: 3}
 --- !u!4 &971966255
 Transform:
   m_ObjectHideFlags: 0

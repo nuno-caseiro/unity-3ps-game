@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                PhotonNetwork.Instantiate(enemy[Random.Range(0,2)].name, newPosition, transform.rotation);
+                PhotonNetwork.Instantiate(enemy[Random.Range(0,3)].name, newPosition, transform.rotation);
             }
 
             }

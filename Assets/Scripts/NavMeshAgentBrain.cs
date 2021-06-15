@@ -138,7 +138,10 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                 {
                     GetPlayer(username);
                     Death();
-                }
+            }
+            else if(transform.gameObject.name.Contains("Titan")) {
+                animator.SetTrigger("hit");
+            }
         }
 
 
