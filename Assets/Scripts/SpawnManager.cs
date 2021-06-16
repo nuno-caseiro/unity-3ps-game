@@ -31,12 +31,15 @@ public class SpawnManager : MonoBehaviour
             if (timerSpawnEnemy >= intervalToSpawnEnemy)
             {
                 timerSpawnEnemy = 0;
-                float x = Random.Range(-219, 304);
-                float z = Random.Range(-349, 288);
-            //Vector3 newPosition = new Vector3(x, transform.position.y, z);
-            x = -115;
-            z = -160;
-            Vector3 newPosition = new Vector3(-115, 1, -160);
+            /*       float x = Random.Range(-219, 304);
+                   float z = Random.Range(-349, 288);
+               //Vector3 newPosition = new Vector3(x, transform.position.y, z);
+               x = -115;
+               z = -160;
+               Vector3 newPosition = new Vector3(-115, 1, -160);*/
+
+            Vector3 newPosition = calculatePosition();
+
             GameObject zombie1 = GameObject.Find("PoolManager").GetComponent<PoolManager>().GetZombie();
             
             if (zombie1 != null)
@@ -45,7 +48,7 @@ public class SpawnManager : MonoBehaviour
                 if (zombie1.GetComponent<NavMeshAgentBrain>().death)
                 {
 
-                    zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, x, transform.position.y, z);
+                    zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, newPosition.x, transform.position.y, newPosition.z);
                     //zombie1.GetComponent<NavMeshAgentBrain>().ReBirth(newPosition);
                     print("NEW ZOMBIE FROM LIST");
                 }
@@ -53,8 +56,78 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 PhotonNetwork.Instantiate(enemy[Random.Range(0,3)].name, newPosition, transform.rotation);
+               // PhotonNetwork.Instantiate(enemy[0].name, newPosition, transform.rotation);
             }
 
             }
+    }
+
+
+    public Vector3 calculatePosition()
+    {
+
+        float x = Random.Range(-219, 304);
+        float z = Random.Range(-349, 288);
+        //Vector3 newPosition = new Vector3(x, transform.position.y, z);
+        // x = -115;
+        // z = -160;
+
+        Vector3 position;
+        do
+        {
+            position = getRandomPosition();
+        }
+        while (IsSamePositionAsPlayer(position) || IsSamePositionAsZombie(position));
+
+
+        return position;
+    }
+
+
+    public bool IsSamePositionAsPlayer(Vector3 vector3)
+    {
+        
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach (GameObject player in players)
+        {
+             if(Vector3.Distance(player.transform.position,vector3) < 3)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsSamePositionAsZombie(Vector3 vector3)
+    {
+        GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
+
+       
+        foreach (GameObject zombie in zombies)
+        {
+            if (zombie.transform.position == vector3)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+    public Vector3 getRandomPosition()
+    {
+        float x = Random.Range(-219, 304);
+        float z = Random.Range(-349, 288);
+        //Vector3 newPosition = new Vector3(x, transform.position.y, z);
+        // x = -115;
+        // z = -160;
+
+        Vector3 newPosition = new Vector3(x, 1, z);
+
+        return newPosition;
     }
 }

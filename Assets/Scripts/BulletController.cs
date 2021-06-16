@@ -29,7 +29,11 @@ public class BulletController : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(LateCall());
+            if (transform.gameObject.activeSelf)
+            {
+                StartCoroutine(LateCall());
+            }
+            
         }
         
     }
@@ -75,9 +79,13 @@ public class BulletController : MonoBehaviourPun
     IEnumerator LateCall()
     {
         yield return new WaitForSeconds(2);
-        print("COROUTINE");
-        GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
-        GameObject.Find("PoolManager").GetComponent<PoolManager>().AddBullet(transform.gameObject);
+
+        if (transform.gameObject.activeSelf)
+        {
+            print("COROUTINE");
+            GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
+            GameObject.Find("PoolManager").GetComponent<PoolManager>().AddBullet(transform.gameObject);
+        }
     }
 
 }

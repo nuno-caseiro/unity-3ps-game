@@ -29,6 +29,7 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             {
                 if (!other.GetComponentInParent<MyPlayer>().isDead && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
                 {
+                    GetComponentInParent<NavMeshAgentBrain>().playerInSmall = true;
                     GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                   
                     GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
@@ -76,9 +77,11 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             {
                 if (!other.GetComponentInParent<MyPlayer>().isDead )
                 {
-                    GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
+                    GetComponentInParent<NavMeshAgentBrain>().playerInSmall = false;
+                    //GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                     //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
-                    GetComponentInParent<NavMeshAgentBrain>().move();
+                    //GetComponentInParent<NavMeshAgentBrain>().move();
+
                 }
             }
         }

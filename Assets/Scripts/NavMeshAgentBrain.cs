@@ -24,7 +24,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     private float bulletSpeed = 100f;
     public GameObject shootPoint;
     public GameObject bulletPrefab;
-    // Start is called before the first frame update
+
+    //for titan
+    public bool playerInSmall = false;
+    
+
+      // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -63,7 +68,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         }
 
      
-
+        
      
     }
 
@@ -73,6 +78,21 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     public void ReBirth(float x , float y, float z)
     {
         transform.position = new Vector3(x,y,z);
+
+        //HEALTH ON REBIRTH
+        string name = transform.gameObject.name;
+        if (name.Contains("Zombie"))
+        {
+            health = 3;
+        }
+        if (name.Contains("alien")){
+            health = 5;
+        }
+        if(name.Contains("Titan"))
+        {
+            health = 20;
+        }
+
         health = 1;
         death = false;
         ShouldIMove = false;
@@ -255,15 +275,18 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                 {
                     
                     bullet.transform.position = shootPoint.transform.position;
-                    bullet.transform.rotation = shootPoint.transform.rotation;
-                    bullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
+                    //bullet.transform.rotation = shootPoint.transform.rotation;
+                    bullet.transform.rotation = Quaternion.identity;
+                    bullet.transform.rotation = Quaternion.FromToRotation(bullet.transform.up, dir);
+                    bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * bulletSpeed;
                     bullet.GetComponent<PhotonView>().RPC("EnableBullet", RpcTarget.All, photonView.ViewID);
                 }
                 else
                 {
                     print("NEW BULLET");
-                    bullet = PhotonNetwork.Instantiate(bulletPrefab.name, shootPoint.transform.position, shootPoint.transform.rotation);
-                    bullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
+                    bullet = PhotonNetwork.Instantiate(bulletPrefab.name, shootPoint.transform.position, Quaternion.identity);
+                    bullet.transform.rotation =Quaternion.FromToRotation(bullet.transform.up, dir);
+                    bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * bulletSpeed;
                     bullet.GetComponent<BulletController>().viewId = photonView.ViewID;
                 }
                

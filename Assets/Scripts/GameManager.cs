@@ -318,9 +318,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        base.OnPlayerLeftRoom(otherPlayer);
+
         
-            base.OnPlayerLeftRoom(otherPlayer);
-        if (running && !clickedExit)
+        if (running && !clickedExit && !MasterClientAvailable())
         {
             print("REMOVED");
             Destroy(localPlayer);
@@ -328,6 +329,20 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel(0);
         }
       
+    }
+
+    private bool MasterClientAvailable()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach(GameObject player in players)
+        {
+            if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     [PunRPC]
