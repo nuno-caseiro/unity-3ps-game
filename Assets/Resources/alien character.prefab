@@ -2116,6 +2116,7 @@ MonoBehaviour:
   shootPoint: {fileID: 65339022347768726}
   bulletPrefab: {fileID: 1000012964112300, guid: 8306882d88a96b64291460c8d7664f4d,
     type: 3}
+  playerInSmall: 0
 --- !u!136 &2455195537034994267
 CapsuleCollider:
   m_ObjectHideFlags: 0

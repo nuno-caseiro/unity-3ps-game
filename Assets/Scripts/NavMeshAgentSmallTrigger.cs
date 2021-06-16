@@ -77,9 +77,16 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
             {
                 if (!other.GetComponentInParent<MyPlayer>().isDead )
                 {
-                    GetComponentInParent<NavMeshAgentBrain>().playerInSmall = false;
+                    NavMeshAgentBrain navMeshAgentBrain = GetComponentInParent<NavMeshAgentBrain>();
+                    navMeshAgentBrain.playerInSmall = false;
+
+                    
+                    if (!navMeshAgentBrain.getObjectName().Contains("Titan") )
+                    {
+                        navMeshAgentBrain.Attacking = false;
+                    }
+                    //GetComponentInParent<NavMeshAgentBrain>().Attacking = false;
                     //GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
-                    //GetComponentInParent<PhotonView>().RPC("move", RpcTarget.All);
                     //GetComponentInParent<NavMeshAgentBrain>().move();
 
                 }

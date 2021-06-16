@@ -45,14 +45,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private bool clickedExit = false;
 
-
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 600;
         sceneCam.enabled = false;
-       
-        localPlayer = PhotonNetwork.Instantiate(player.name, playerSpawnPosition.position,playerSpawnPosition.rotation);
+
+        localPlayer = PhotonNetwork.Instantiate(player.name, getRandomPosition(), playerSpawnPosition.rotation) ;
         
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
@@ -364,6 +363,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             }
         }
+    }
+
+    public Vector3 getRandomPosition()
+    {
+        float x = UnityEngine.Random.Range(-219, 304);
+        float z = UnityEngine.Random.Range(-349, 288);
+        //Vector3 newPosition = new Vector3(x, transform.position.y, z);
+        // x = -115;
+        // z = -160;
+
+        Vector3 newPosition = new Vector3(x, 1, z);
+
+        return newPosition;
     }
 
 }

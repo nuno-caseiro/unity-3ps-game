@@ -1236,7 +1236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb911045449643559edcc5697550f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9
+  moveSpeed: 11
   smoothRotationTime: 0.1
   enableMobileInputs: 1
   cameraTransform: {fileID: 4647246477362830070}

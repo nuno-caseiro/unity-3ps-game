@@ -27,8 +27,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     //for titan
     public bool playerInSmall = false;
-    
 
+    
       // Start is called before the first frame update
     void Awake()
     {
@@ -39,7 +39,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-
+        
         if (PhotonNetwork.IsMasterClient)
         {
             if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
@@ -72,6 +72,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
      
     }
 
+    public string getObjectName()
+    {
+        print(transform.gameObject.name);
+        return transform.gameObject.name;
+    }
+
    
 
     [PunRPC]
@@ -84,16 +90,13 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         if (name.Contains("Zombie"))
         {
             health = 3;
-        }
-        if (name.Contains("alien")){
+        }else if (name.Contains("alien")){
             health = 5;
         }
-        if(name.Contains("Titan"))
-        {
+        else{ //titan
             health = 20;
         }
 
-        health = 1;
         death = false;
         ShouldIMove = false;
         transform.gameObject.SetActive(true);
@@ -223,7 +226,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            if (GetComponent<PhotonView>().IsMine)
+            if (transform.gameObject.name.Contains("Titan") && !playerInSmall)
+            {
+               Attacking = false;
+            }
+
+            if (GetComponent<PhotonView>().IsMine && playerInSmall)
             {
                 Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
             }

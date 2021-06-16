@@ -875,6 +875,7 @@ MonoBehaviour:
   lastHitPlayer: 
   shootPoint: {fileID: 0}
   bulletPrefab: {fileID: 0}
+  playerInSmall: 0
 --- !u!136 &5512040667679808033
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1838,10 +1839,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 2
-  m_Height: 3
+  m_Radius: 2.0892491
+  m_Height: 4.1784983
   m_Direction: 1
-  m_Center: {x: -0.2730024, y: 3.5297005, z: 0.34016418}
+  m_Center: {x: -0.27300245, y: 3.5297005, z: 0.42941245}
 --- !u!114 &8700468836688646793
 MonoBehaviour:
   m_ObjectHideFlags: 0
