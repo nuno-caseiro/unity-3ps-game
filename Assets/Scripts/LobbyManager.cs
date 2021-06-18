@@ -14,6 +14,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject lobbyUI;
     public GameObject mainMenuUI;
     public GameObject loadingScreen;
+    public GameObject errorScreen;
 
     [Header("---UI Text----")]
     public Text statusText;
@@ -115,7 +116,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         //base.OnJoinedLobby();
         connectUI.SetActive(false);
-        mainMenuUI.SetActive(true);
+        if (!errorScreen.activeSelf)
+        {
+            mainMenuUI.SetActive(true);
+        }
+        
         userName.text = "Player" + Random.Range(100, 999);
         statusText.text = "Joined To Lobbyxw";
     }
@@ -186,7 +191,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(otherPlayer);
         print("REMOVED");
-        RemovePlayer(otherPlayer.NickName);
+        //RemovePlayer(otherPlayer.NickName);
+        LeaveRoom(false);
+        
     }
 
 
@@ -203,7 +210,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         
         roomOptions.MaxPlayers = maxPlayers;
         roomOptions.EmptyRoomTtl = 0;
-        PhotonNetwork.CreateRoom(createRoom.text, roomOptions, TypedLobby.Default);
+        if(createRoom.text.Length != 0)
+        {
+            PhotonNetwork.CreateRoom(createRoom.text, roomOptions, TypedLobby.Default);
+
+        }
+        else
+        {
+            roomUI.SetActive(false);
+            errorScreen.SetActive(true);
+        }
     }
 
     public void Onclick_JoinBtn()
@@ -218,7 +234,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayers;
         roomOptions.EmptyRoomTtl = 0;
-        PhotonNetwork.JoinOrCreateRoom(joinRoom.text, roomOptions, TypedLobby.Default);
+
+        if (joinRoom.text.Length != 0)
+        {
+            PhotonNetwork.JoinOrCreateRoom(joinRoom.text, roomOptions, TypedLobby.Default);
+        }
+        else
+        {
+            roomUI.SetActive(false);
+            errorScreen.SetActive(true);
+        }
+        
 
     }
 
@@ -250,7 +276,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
-                SendMsg((byte)EventCodes.loading);
+                SendMsgAll((byte)EventCodes.loading);
+                
                // SendMsg((byte)EventCodes.enter);
                 
                 
@@ -299,8 +326,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if(code == EventCodes.loading)
         {
+            
             showLoadingScreen();
-            PhotonNetwork.LoadLevel(1);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel(1);
+            }
+         
         }
 
         
@@ -370,7 +403,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void LeaveRoom()
+    public void LeaveRoom(bool clicked)
     {
         PhotonNetwork.LeaveRoom();
         lobbyUI.SetActive(false);
@@ -378,6 +411,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             GameObject.Destroy(child.gameObject);
         }
+
+        if (!clicked)
+        {
+            errorScreen.SetActive(true);
+            errorScreen.transform.GetChild(0).GetComponent<Text>().text = "Someone left the room";
+        }
+
+
         //limpar players
 
 
@@ -385,6 +426,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //roomUI.SetActive(true);
         //mainMenuUI.SetActive(false);
     }
+
+    
 
 
     public void ReturnMainMenu()
@@ -398,5 +441,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Application.Quit();
     }
 
+
+    public void HideErrorScreen()
+    {
+        errorScreen.SetActive(false);
+        roomUI.SetActive(true);
+    }
 
 }
