@@ -62,6 +62,8 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     public AudioSource intense;
     public AudioSource ambient;
 
+    public Text nameLabel;
+
    
     Rigidbody rb;
     public float fallMultiplayer = 2.5f;
@@ -71,7 +73,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         if (photonView.IsMine)
         {
             joystick = GameObject.Find("Fixed Joystick").GetComponent<FixedJoystick>();
-
+            
             //crossHairPrefab = Resources.Load("CrosshairCanvas") as GameObject;
             chatSystem.SetActive(true);
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -82,17 +84,22 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
     {
         if (photonView.IsMine)
         {
+          
             myAnimator = GetComponent<Animator>();
             cameraTransform = Camera.main.transform;
-
+  
             GameObject.Find("ShootButton").GetComponent<BtnFireScript>().SetPlayer(this);
             GameObject.Find("JumpButton").GetComponent<FixedButton>().SetPlayer(this);
             //crossHairPrefab = Instantiate(crossHairPrefab);
             healthBar.SetActive(true);
             //pointsParent.SetActive(true);
+
+           
+
         }
         else
         {
+            nameLabel.text = photonView.Owner.NickName;
             GetComponent<BetterJump>().enabled = false;
         }
     }
@@ -185,38 +192,42 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
         fire = true;
 
         myAnimator.SetBool("fire 0", true);
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-        transform.LookAt(Camera.main.transform);
-        RaycastHit hit;
-        int layerMask = LayerMask.GetMask("Zombie");
-        if (Physics.Raycast(ray, out hit, 100f, layerMask))
-        {
+        if(Camera.main != null) {
 
-            PhotonView pv = hit.transform.GetComponent<PhotonView>();
-            print(hit.transform.gameObject.name);
-
-          /*  if (pv != null && !hit.transform.GetComponent<PhotonView>().IsMine && hit.transform.tag == "Player" )
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+            transform.LookAt(Camera.main.transform);
+            RaycastHit hit;
+            int layerMask = LayerMask.GetMask("Zombie");
+            if (Physics.Raycast(ray, out hit, 100f, layerMask))
             {
-                hit.transform.GetComponent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, damage);
-            }*/
+
+                PhotonView pv = hit.transform.GetComponent<PhotonView>();
+                print(hit.transform.gameObject.name);
+
+                /*  if (pv != null && !hit.transform.GetComponent<PhotonView>().IsMine && hit.transform.tag == "Player" )
+                  {
+                      hit.transform.GetComponent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, damage);
+                  }*/
 
 
-            if (hit.transform.tag == "Zombie")
-            { 
-                hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.NickName);
+                if (hit.transform.tag == "Zombie")
+                {
+                    hit.transform.GetComponent<PhotonView>().RPC("GetDamageZombie", RpcTarget.All, damage, PhotonNetwork.LocalPlayer.NickName);
+                }
+
+
             }
 
+            if (!shootSound.isPlaying)
+            {
+                shootSound.loop = true;
+                shootSound.Play();
+            }
 
+            MuzzleFlash();
+            //Debug.DrawRay(rayOrigin.position, Camera.main.transform.forward * 25f, Color.green);
         }
 
-        if (!shootSound.isPlaying)
-        {
-            shootSound.loop = true;
-            shootSound.Play();
-        }
-       
-        MuzzleFlash();
-        //Debug.DrawRay(rayOrigin.position, Camera.main.transform.forward * 25f, Color.green);
     }
 
     public void FireUp()

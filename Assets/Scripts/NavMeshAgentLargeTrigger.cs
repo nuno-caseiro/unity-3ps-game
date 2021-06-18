@@ -33,7 +33,11 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
                 {
                     if (GetComponentInParent<NavMeshAgentBrain>().screaming != null)
                     {
-                        GetComponentInParent<NavMeshAgentBrain>().screaming.GetComponent<AudioSource>().Play();
+                        if (PhotonNetwork.LocalPlayer.NickName == other.gameObject.GetComponentInParent<PhotonView>().Owner.NickName)
+                        {
+                            GetComponentInParent<NavMeshAgentBrain>().screaming.GetComponent<AudioSource>().Play();
+                        }
+                        
                     }
 
                     GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();

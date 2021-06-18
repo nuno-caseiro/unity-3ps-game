@@ -133,13 +133,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d108e9ae3908d4d479e1e41cca0188a3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.104
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 155
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1197,6 +1197,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 0}
   playerInSmall: 0
   screaming: {fileID: 604910786906769467}
+  fillImage: {fileID: 7061936174691086737}
 --- !u!114 &5808816678327025390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1899,7 +1900,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7169521580004242542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 507473477145803347}
@@ -1908,7 +1909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.8}
+  m_AnchoredPosition: {x: 0, y: 1.9}
   m_SizeDelta: {x: 2, y: 0.3216}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &853239526171627716

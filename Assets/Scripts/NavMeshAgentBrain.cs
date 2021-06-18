@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using UnityEngine.UI;
 public class NavMeshAgentBrain : MonoBehaviourPun
 {
     public bool ShouldIMove;
@@ -30,8 +31,11 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public GameObject screaming = null;
 
-    
-      // Start is called before the first frame update
+    public Image fillImage;
+    private float maxHealth;
+
+
+    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -51,6 +55,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             points = 50;
         }
 
+        maxHealth = health;
 
     }
 
@@ -118,7 +123,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         else{ //titan
             health = 20;
         }
-
+        fillImage.transform.parent.gameObject.SetActive(true);
+        fillImage.fillAmount = 1;
         death = false;
         ShouldIMove = false;
         transform.gameObject.SetActive(true);
@@ -186,12 +192,16 @@ public class NavMeshAgentBrain : MonoBehaviourPun
               
                 if (health <= 0)
                 {
+                fillImage.transform.parent.gameObject.SetActive(false);
                     GetPlayer(username);
                     Death();
             }
             else if(transform.gameObject.name.Contains("Titan")) {
                 animator.SetTrigger("hit");
             }
+
+
+            fillImage.fillAmount = health / maxHealth;
         }
 
 
@@ -290,11 +300,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             animator.SetBool("run", false);
             animator.SetBool("attack", true);
 
-        if(screaming != null)
-        {
-            screaming.GetComponent<AudioSource>().Play();
-        }
-       
+      
             Attacking = true;
         
         

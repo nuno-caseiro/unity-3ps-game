@@ -96,7 +96,7 @@ public class SpawnManager : MonoBehaviour
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
         {
-             if(Vector3.Distance(player.transform.position,vector3) < 3)
+             if(Vector3.Distance(player.transform.position,vector3) < 5)
             {
                 return true;
             }
