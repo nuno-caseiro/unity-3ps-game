@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using System;
 using ExitGames.Client.Photon;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         sceneCam.enabled = false;
 
         localPlayer = PhotonNetwork.Instantiate(player.name, getRandomPosition(), Quaternion.identity) ;
-        
+
+        PhotonNetwork.AutomaticallySyncScene = false;
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
         print("TOTAL PLAYERS" + totalPlayers);
@@ -348,14 +349,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         clickedExit = true;
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel(0);
-        
+        //PhotonNetwork.LoadLevel(0);
+        //Application.LoadLevel(0);
+
+
     }
 
     public void LeaveGame()
     {
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel(0); 
+        //PhotonNetwork.LoadLevel(0);
+        //Application.LoadLevel(0);
+
 
     }
 
@@ -498,8 +503,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         return "None";
     }
 
-    
 
-   
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
 
 }

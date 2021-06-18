@@ -88,7 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Awake()
     { 
         PhotonNetwork.ConnectUsingSettings();
-       // PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void OnEnable()
@@ -250,7 +250,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
-                SendMsgAll((byte)EventCodes.loading);
+                SendMsg((byte)EventCodes.loading);
                // SendMsg((byte)EventCodes.enter);
                 
                 
@@ -293,7 +293,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 if (count == maxPlayers)
                     startBtnText.text = "Start !";
                 else
-                    startBtnText.text = "Only " + count + "/ 4 players are ready";
+                    startBtnText.text = "Only " + count + "/" + maxPlayers.ToString() +  "players are ready";
             }
         }
 
