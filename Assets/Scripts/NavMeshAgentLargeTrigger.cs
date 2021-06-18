@@ -31,6 +31,10 @@ public class NavMeshAgentLargeTrigger : MonoBehaviourPun
             {
                 if (!other.GetComponentInParent<MyPlayer>().isDead)
                 {
+                    if (GetComponentInParent<NavMeshAgentBrain>().screaming != null)
+                    {
+                        GetComponentInParent<NavMeshAgentBrain>().screaming.GetComponent<AudioSource>().Play();
+                    }
 
                     GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                     GetComponentInParent<NavMeshAgentBrain>().move();

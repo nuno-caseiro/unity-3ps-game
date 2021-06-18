@@ -20,11 +20,11 @@ public class SpawnManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient && transform.gameObject.activeSelf && GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
-            spawnEnemy();
+            CalculateTimeForSpawnEnemy();
         }
     }
 
-    void spawnEnemy()
+    public void CalculateTimeForSpawnEnemy()
     { 
             timerSpawnEnemy += Time.deltaTime;
 
@@ -38,36 +38,42 @@ public class SpawnManager : MonoBehaviour
                z = -160;
                Vector3 newPosition = new Vector3(-115, 1, -160);*/
 
-            Vector3 newPosition = calculatePosition();
+            spawnEnemy();
+                
+            }
+    }
 
-            GameObject zombie1 = GameObject.Find("PoolManager").GetComponent<PoolManager>().GetZombie();
-            
-            if (zombie1 != null)
+
+    public void spawnEnemy()
+    {
+        Vector3 newPosition = calculatePosition();
+
+        GameObject zombie1 = GameObject.Find("PoolManager").GetComponent<PoolManager>().GetZombie();
+
+        if (zombie1 != null)
+        {
+            print(zombie1.GetComponent<NavMeshAgentBrain>().death);
+            if (zombie1.GetComponent<NavMeshAgentBrain>().death)
             {
-                print(zombie1.GetComponent<NavMeshAgentBrain>().death);
-                if (zombie1.GetComponent<NavMeshAgentBrain>().death)
-                {
 
-                    zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, newPosition.x, transform.position.y, newPosition.z);
-                    //zombie1.GetComponent<NavMeshAgentBrain>().ReBirth(newPosition);
-                    print("NEW ZOMBIE FROM LIST");
-                }
+                zombie1.GetComponent<PhotonView>().RPC("ReBirth", RpcTarget.All, newPosition.x, transform.position.y, newPosition.z);
+                //zombie1.GetComponent<NavMeshAgentBrain>().ReBirth(newPosition);
+                print("NEW ZOMBIE FROM LIST");
             }
-            else
-            {
-                PhotonNetwork.Instantiate(enemy[Random.Range(0,3)].name, newPosition, transform.rotation);
-               // PhotonNetwork.Instantiate(enemy[0].name, newPosition, transform.rotation);
-            }
-
-            }
+        }
+        else
+        {
+            PhotonNetwork.Instantiate(enemy[Random.Range(0, 3)].name, newPosition, transform.rotation);
+            // PhotonNetwork.Instantiate(enemy[0].name, newPosition, transform.rotation);
+        }
     }
 
 
     public Vector3 calculatePosition()
     {
 
-        float x = Random.Range(-219, 304);
-        float z = Random.Range(-349, 288);
+        float x = UnityEngine.Random.Range(-173, 301);
+        float z = UnityEngine.Random.Range(-320, 200);
         //Vector3 newPosition = new Vector3(x, transform.position.y, z);
         // x = -115;
         // z = -160;

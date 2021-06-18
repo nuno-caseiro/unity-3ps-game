@@ -393,5 +393,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         mainMenuUI.SetActive(true);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
 
 }

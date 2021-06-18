@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Application.targetFrameRate = 600;
         sceneCam.enabled = false;
 
-        localPlayer = PhotonNetwork.Instantiate(player.name, getRandomPosition(), playerSpawnPosition.rotation) ;
+        localPlayer = PhotonNetwork.Instantiate(player.name, getRandomPosition(), Quaternion.identity) ;
         
 
         totalPlayers = PhotonNetwork.PlayerList.Length;
@@ -69,6 +69,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             spawnEnemyPoint.SetActive(true);
             poolManager.SetActive(true);
+            for(int i = 0; i< 15; i++)
+            {
+                spawnEnemyPoint.GetComponent<SpawnManager>().spawnEnemy();
+            }
         }
 
         /*  if (PhotonNetwork.IsMasterClient)
@@ -123,6 +127,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if(running && timerCountdown <= 180 && sun.GetComponent<Light>().intensity>0)
         {
+            if (localPlayer.GetComponent<MyPlayer>().ambient.isPlaying)
+            {
+                localPlayer.GetComponent<MyPlayer>().ambient.Stop();
+                localPlayer.GetComponent<MyPlayer>().intense.Play();
+                localPlayer.GetComponent<MyPlayer>().intense.loop = true;
+
+            }
             sun.GetComponent<Light>().intensity -= 0.08f * Time.deltaTime;
         }
 
@@ -444,8 +455,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Vector3 getRandomPosition()
     {
-        float x = UnityEngine.Random.Range(-219, 304);
-        float z = UnityEngine.Random.Range(-349, 288);
+        float x = UnityEngine.Random.Range(-173, 301);
+        float z = UnityEngine.Random.Range(-320, 200);
         //Vector3 newPosition = new Vector3(x, transform.position.y, z);
         // x = -115;
         // z = -160;
@@ -486,6 +497,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         return "None";
     }
+
+    
 
    
 

@@ -28,6 +28,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     //for titan
     public bool playerInSmall = false;
 
+    public GameObject screaming = null;
+
     
       // Start is called before the first frame update
     void Awake()
@@ -38,6 +40,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         if (transform.gameObject.name.Contains("Zombie"))
         {
             points = 10;
+
         }
         else if (transform.gameObject.name.Contains("alien"))
         {
@@ -47,6 +50,8 @@ public class NavMeshAgentBrain : MonoBehaviourPun
         { //titan
             points = 50;
         }
+
+
     }
 
     // Update is called once per frame
@@ -162,6 +167,10 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             ShouldIMove = false;
         Attacking = false;
         navMeshAgent.isStopped = true;
+        if (screaming != null)
+        {
+            screaming.GetComponent<AudioSource>().Stop();
+        }
             navMeshAgent.velocity = Vector3.zero;
             
         
@@ -280,6 +289,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             //navMeshAgent.velocity = Vector3.zero;         
             animator.SetBool("run", false);
             animator.SetBool("attack", true);
+
+        if(screaming != null)
+        {
+            screaming.GetComponent<AudioSource>().Play();
+        }
+       
             Attacking = true;
         
         

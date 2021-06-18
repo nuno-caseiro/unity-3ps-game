@@ -59,6 +59,9 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
     private GameManager gameManager;
 
+    public AudioSource intense;
+    public AudioSource ambient;
+
    
     Rigidbody rb;
     public float fallMultiplayer = 2.5f;
@@ -309,19 +312,23 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
        // GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
        // PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
 
-       /* GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Zombie");
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Zombie");
         foreach (GameObject zombie in gameObjects)
         {
-            if (zombie.GetComponent<NavMeshAgentBrain>().Point.transform == null)
+            if (zombie.GetComponent<NavMeshAgentBrain>().Point == null)
             {
-                PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+                zombie.GetComponent<PhotonView>().RPC("StopZombieFromPlayer", RpcTarget.All);
             }
 
-            if(!= null)
-            if(zombie.GetComponent<NavMeshAgentBrain>().Point.transform.GetComponentInParent<PhotonView>().Owner.NickName == PhotonNetwork.LocalPlayer.NickName){
-                PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+            if(zombie.GetComponent<NavMeshAgentBrain>().Point  != null)
+            {
+                if (zombie.GetComponent<NavMeshAgentBrain>().Point.GetComponentInParent<PhotonView>().Owner.NickName == PhotonNetwork.LocalPlayer.NickName)
+                {
+                    zombie.GetComponent<PhotonView>().RPC("StopZombieFromPlayer", RpcTarget.All);
+                }
             }
-        }*/
+           
+        }
 
     }
 
