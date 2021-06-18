@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject localPlayer;
 
     private float timerCountdown = 600;
+    public GameObject timerParent;
     public bool running = false;
 
     public Text timer;
@@ -39,11 +40,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject scoreContainer;
 
+    public GameObject pauseMenu;
+
+    public GameObject sun;
+
+    public GameObject settings;
+
     private int nPlayers;
 
     int deadPlayers = 0;
 
     private bool clickedExit = false;
+
+    private string masterClient;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +78,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         nPlayers  = PhotonNetwork.PlayerList.Length;
 
+        masterClient = MasterClientName();
         running = true;
+
+        timerParent.SetActive(true);
         
     }
 
@@ -108,6 +120,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         calculateTime();
+
+        if(running && timerCountdown <= 180 && sun.GetComponent<Light>().intensity>0)
+        {
+            sun.GetComponent<Light>().intensity -= 0.08f * Time.deltaTime;
+        }
+
+        if (sun.GetComponent<Light>().intensity <= 0)
+        {
+            sun.SetActive(false);
+        }
         
     }
 
@@ -304,27 +326,46 @@ public class GameManager : MonoBehaviourPunCallbacks
         localPlayer.GetComponent<MyPlayer>().chatSystem.SetActive(false);
         localPlayer.GetComponent<MyPlayer>().pointsParent.SetActive(false);
         timer.text = "";
-        scoreContainer.SetActive(false);
+        timerParent.SetActive(false);
+        pauseMenu.SetActive(false);
+        
     }
+
+
 
     public void OnClick_GoBackToLobby()
     {
         clickedExit = true;
-        PhotonNetwork.LeaveRoom(true);
+        PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel(0);
         
     }
+
+    public void LeaveGame()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel(0); 
+
+    }
+
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        
+        //remover do r
+
+
+
+        removePlayerFromScoreContainer();
+        nPlayers = PhotonNetwork.PlayerList.Length;
+
+
         if (running && !clickedExit && !MasterClientAvailable())
         {
             print("REMOVED");
             Destroy(localPlayer);
-            PhotonNetwork.LeaveRoom(true);
+            PhotonNetwork.LeaveRoom();
             PhotonNetwork.LoadLevel(0);
         }
       
@@ -335,7 +376,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach(GameObject player in players)
         {
-            if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
+            if (player.GetComponent<PhotonView>().Owner.NickName == masterClient)
             {
                 return true;
             }
@@ -365,6 +406,42 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+
+    public void removePlayerFromScoreContainer()
+    {
+        Transform sc = scoreContainer.transform;
+
+
+        for (int i = 0; i < scoreContainer.transform.childCount; i++)
+        {
+
+            if (!PlayerAvailabe(sc, i))
+            {
+                print("HI");
+                Destroy(scoreContainer.transform.GetChild(i));
+            }
+
+        }
+
+    }
+
+    public bool PlayerAvailabe(Transform sc, int pos)
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach (GameObject player in players)
+        {
+            string playerName = player.GetPhotonView().Owner.NickName;
+            if (sc.GetChild(pos).GetChild(0).GetComponent<Text>().text == playerName)
+            {
+                print(sc.GetChild(pos).GetChild(0).GetComponent<Text>().text);
+                return true;
+            }
+
+        }
+
+        return false;
+    } 
+
     public Vector3 getRandomPosition()
     {
         float x = UnityEngine.Random.Range(-219, 304);
@@ -373,9 +450,43 @@ public class GameManager : MonoBehaviourPunCallbacks
         // x = -115;
         // z = -160;
 
-        Vector3 newPosition = new Vector3(x, 1, z);
+        Vector3 newPosition = new Vector3(x, 30, z);
 
         return newPosition;
     }
+
+    public void ResumeGame() {
+        pauseMenu.SetActive(false);
+    }
+
+    public void PauseMenu()
+    {
+        if (pauseMenu.activeSelf)
+        {
+            pauseMenu.SetActive(false);
+
+        }
+        else
+        {
+            pauseMenu.SetActive(true);
+
+        }
+    }
+
+    public string MasterClientName()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
+            {
+                masterClient = player.GetComponent<PhotonView>().Owner.NickName;
+                return masterClient;
+            }
+        }
+        return "None";
+    }
+
+   
 
 }

@@ -24,6 +24,7 @@ public class PoolManager : MonoBehaviour
     public void AddBullet(GameObject b)
     {
         bulletList.Enqueue(b);
+        print(bulletList.Count);
     }
 
     public GameObject GetBullet()

@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviourPun
 
     private float bulletDamage = 0.05f;
     public int viewId;
+    IEnumerator call;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +32,12 @@ public class BulletController : MonoBehaviourPun
         {
             if (transform.gameObject.activeSelf)
             {
-                StartCoroutine(LateCall());
+                call = LateCall();
+                StartCoroutine(call);
+
+
             }
-            
+
         }
         
     }
@@ -49,12 +53,17 @@ public class BulletController : MonoBehaviourPun
             {
                 if (other.gameObject.tag == "Player")
                 {
-                    if (other.gameObject.GetComponentInParent<PhotonView>().IsMine)
+                    StopCoroutine(call);
+                    other.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, bulletDamage, viewId); //photonview.viewid
+                    GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
+
+                    if (PhotonNetwork.IsMasterClient)
                     {
-                        other.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, bulletDamage, viewId); //photonview.viewid
-                        GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
+                       
                         GameObject.Find("PoolManager").GetComponent<PoolManager>().AddBullet(transform.gameObject);
                         //DIZER A tds para meter desativo e neste caso meto na lista 
+
+
                     }
 
                 }
@@ -62,30 +71,35 @@ public class BulletController : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    public void DisableBullet()
-    {
-        transform.gameObject.SetActive(false);
-
-    }
-        
-    [PunRPC]
-    public void EnableBullet(int viewId)
-    {
-        this.viewId = viewId;
-        transform.gameObject.SetActive(true);
-    }
-
-    IEnumerator LateCall()
-    {
-        yield return new WaitForSeconds(2);
-
-        if (transform.gameObject.activeSelf)
+        [PunRPC]
+        public void DisableBullet()
         {
-            print("COROUTINE");
-            GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
-            GameObject.Find("PoolManager").GetComponent<PoolManager>().AddBullet(transform.gameObject);
+            transform.gameObject.SetActive(false);
+
+        }
+
+        [PunRPC]
+        public void EnableBullet(int viewId)
+        {
+            this.viewId = viewId;
+            transform.gameObject.SetActive(true);
+        }
+
+        IEnumerator LateCall()
+        {
+            yield return new WaitForSeconds(2);
+
+            if (transform.gameObject.activeSelf)
+            {
+                print("COROUTINE");
+                GetComponent<PhotonView>().RPC("DisableBullet", RpcTarget.All);
+                if (PhotonNetwork.IsMasterClient)
+                {
+
+                    GameObject.Find("PoolManager").GetComponent<PoolManager>().AddBullet(transform.gameObject);
+                }
+            }
         }
     }
 
-}
+

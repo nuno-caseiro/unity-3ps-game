@@ -1064,7 +1064,6 @@ MonoBehaviour:
   death: 0
   health: 3
   damage: 0.05
-  points: 10
   lastHitPlayer: 
   shootPoint: {fileID: 0}
   bulletPrefab: {fileID: 0}

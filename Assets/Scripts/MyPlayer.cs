@@ -250,9 +250,9 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
             if (playerHealth <= 0 && !isDead)
             {
-
-                Death();
                 GetZombie(zombieId);
+                Death();
+                
             }
 
             
@@ -298,15 +298,31 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
             gameManager.running = false;
             gameManager.PopulateScoreScreen(gameManager.finishContainer);
             gameManager.hidePlayerCanvasElements();
+            gameManager.scoreContainer.SetActive(false);
+            gameManager.settings.SetActive(false);
         }
         
     }
 
     public void GetZombie(int idObject)
     {
-        GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
-        PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
-       
+       // GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
+       // PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+
+       /* GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Zombie");
+        foreach (GameObject zombie in gameObjects)
+        {
+            if (zombie.GetComponent<NavMeshAgentBrain>().Point.transform == null)
+            {
+                PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+            }
+
+            if(!= null)
+            if(zombie.GetComponent<NavMeshAgentBrain>().Point.transform.GetComponentInParent<PhotonView>().Owner.NickName == PhotonNetwork.LocalPlayer.NickName){
+                PhotonView.Find(idObject).RPC("StopZombieFromPlayer", RpcTarget.All);
+            }
+        }*/
+
     }
 
     [PunRPC]

@@ -15,7 +15,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     public bool death = false;
     public float health = 1.00f;
     public float damage = 0.01f;
-    public float points = 10;
+    private float points = 10;
     
 
     public string lastHitPlayer;
@@ -34,6 +34,19 @@ public class NavMeshAgentBrain : MonoBehaviourPun
     {
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        if (transform.gameObject.name.Contains("Zombie"))
+        {
+            points = 10;
+        }
+        else if (transform.gameObject.name.Contains("alien"))
+        {
+            points = 15;
+        }
+        else
+        { //titan
+            points = 50;
+        }
     }
 
     // Update is called once per frame
@@ -52,15 +65,19 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
                 if (ShouldIMove && !death)
                 {
-                    if (Point.transform.gameObject.activeSelf)
+                    if (Point != null)
                     {
+                        if (Point.transform.gameObject.activeSelf)
+                        {
 
-                        GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
+                            transform.GetComponent<NavMeshAgent>().SetDestination(Point.transform.position);
+                        }
+                        else
+                        {
+                            stop();
+                        }
                     }
-                    else
-                    { 
-                        stop();
-                    }
+                    
 
                 }
 
@@ -143,9 +160,10 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             animator.SetBool("attack", false);
 
             ShouldIMove = false;
-            navMeshAgent.isStopped = true;
-            //navMeshAgent.velocity = Vector3.zero;
-            Attacking = false;
+        Attacking = false;
+        navMeshAgent.isStopped = true;
+            navMeshAgent.velocity = Vector3.zero;
+            
         
     }
 
@@ -231,10 +249,14 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                Attacking = false;
             }
 
-            if (GetComponent<PhotonView>().IsMine && playerInSmall)
+            if(Point != null)
             {
-                Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
+                if (GetComponent<PhotonView>().IsMine && playerInSmall)
+                {
+                    Point.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.All, damage, photonView.ViewID);
+                }
             }
+           
             
         }
         
@@ -267,7 +289,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
 
     public void CastBullet()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && GetComponent<PhotonView>().Owner.IsMasterClient && Point != null)
         {
             if (transform.gameObject.name.Contains("alien"))
             {
@@ -275,10 +297,10 @@ public class NavMeshAgentBrain : MonoBehaviourPun
                 PoolManager pool = GameObject.Find("PoolManager").GetComponent<PoolManager>();
                 GameObject bullet = pool.GetBullet();
               
-                Vector3 dir = (Point.transform.parent.transform.position - shootPoint.transform.position).normalized;
+                Vector3 dir = (Point.transform.parent.transform.Find("CameraTarget").position - shootPoint.transform.position).normalized;
                 //print(Point.transform.parent.transform.position - shootPoint.transform.position);
 
-                shootPoint.transform.LookAt(dir);
+                
                 if (bullet != null)
                 {
                     
@@ -317,7 +339,7 @@ public class NavMeshAgentBrain : MonoBehaviourPun
            transform.LookAt(Point.transform.parent.transform);
             if (shootPoint != null)
             {
-                shootPoint.transform.LookAt(Point.transform.parent.transform);
+                shootPoint.transform.LookAt(Point.transform.parent.transform.Find("CameraTarget"));
             }
            
         }

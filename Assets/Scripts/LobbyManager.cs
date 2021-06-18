@@ -13,6 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject connectUI;
     public GameObject lobbyUI;
     public GameObject mainMenuUI;
+    public GameObject loadingScreen;
 
     [Header("---UI Text----")]
     public Text statusText;
@@ -31,6 +32,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Dropdown dropdown;
 
     public byte maxPlayers = 2;
+
 
     //MANAGER 2
     public GameObject playersContainer;
@@ -67,6 +69,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickMainMenu_Start()
     {
         mainMenuUI.SetActive(false);
+        roomUI.SetActive(true);
     }
 
     public void MaxPlayer1()
@@ -78,13 +81,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         practice.interactable = false;
         PhotonNetwork.LocalPlayer.NickName = userName.text;
+        showLoadingScreen();
         PhotonNetwork.JoinRandomRoom();
     }
 
     private void Awake()
     { 
         PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AutomaticallySyncScene = true;
+       // PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void OnEnable()
@@ -111,7 +115,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         //base.OnJoinedLobby();
         connectUI.SetActive(false);
-        roomUI.SetActive(true);
+        mainMenuUI.SetActive(true);
         userName.text = "Player" + Random.Range(100, 999);
         statusText.text = "Joined To Lobbyxw";
     }
@@ -130,11 +134,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             roomUI.SetActive(false);
             lobbyUI.SetActive(true);
-
+            int i = PhotonNetwork.PlayerList.Length; ;
             foreach (Player p in PhotonNetwork.CurrentRoom.Players.Values)
             {
+               
                 //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
-                AddPlayer(p.NickName);
+                AddPlayer(p.NickName, i);
+                i--;
             }
             //AddPlayer(PhotonNetwork.LocalPlayer.NickName);
 
@@ -165,6 +171,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int roomName = Random.Range(0, 10000);
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayers;
+        roomOptions.EmptyRoomTtl = 0;
         PhotonNetwork.CreateRoom(roomName.ToString(), roomOptions, TypedLobby.Default);
     }
 
@@ -172,7 +179,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         print(newPlayer.NickName);
-        AddPlayer(newPlayer.NickName);
+        AddPlayer(newPlayer.NickName, PhotonNetwork.PlayerList.Length);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -195,6 +202,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         
         roomOptions.MaxPlayers = maxPlayers;
+        roomOptions.EmptyRoomTtl = 0;
         PhotonNetwork.CreateRoom(createRoom.text, roomOptions, TypedLobby.Default);
     }
 
@@ -209,6 +217,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayers;
+        roomOptions.EmptyRoomTtl = 0;
         PhotonNetwork.JoinOrCreateRoom(joinRoom.text, roomOptions, TypedLobby.Default);
 
     }
@@ -230,7 +239,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
         {
-            SendMsg();
+            SendMsg((byte)EventCodes.ready);
             startButton.interactable = false;
             startBtnText.text = "Wait...";
 
@@ -241,16 +250,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
-                PhotonNetwork.LoadLevel(1);
+                SendMsgAll((byte)EventCodes.loading);
+               // SendMsg((byte)EventCodes.enter);
+                
+                
                 //lobbyText.text = "All Set: Play the game scene";
             }
         }
     }
 
+    public void showLoadingScreen()
+    {
+        mainMenuUI.SetActive(false);
+        lobbyUI.SetActive(false);
+        loadingScreen.SetActive(true);
+    }
+
 
     enum EventCodes
     {
-        ready = 1
+        ready = 1,
+        loading = 2,
+        enter = 3
     }
     int count = 1;
 
@@ -259,7 +280,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         byte eventCode = photonEvent.Code;
         object content = photonEvent.CustomData;
         EventCodes code = (EventCodes)eventCode;
-
+       
+        print(code);
         if(code == EventCodes.ready)
         {
 
@@ -275,9 +297,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
 
+        if(code == EventCodes.loading)
+        {
+            showLoadingScreen();
+            PhotonNetwork.LoadLevel(1);
+        }
+
+        
+
     }
 
-    public void SendMsg()
+    public void SendMsg(byte eventCode)
     {
         string message = PhotonNetwork.LocalPlayer.ActorNumber.ToString();
         object[] datas = new object[] { message };
@@ -292,15 +322,36 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         SendOptions sendOptions = new SendOptions();
         sendOptions.Reliability = true;
 
-        PhotonNetwork.RaiseEvent((byte)EventCodes.ready, datas, options, sendOptions);
+        PhotonNetwork.RaiseEvent(eventCode, datas, options, sendOptions);
     }
 
-    public void AddPlayer(string playerName)
+
+    public void SendMsgAll(byte eventCode)
+    {
+        string message = PhotonNetwork.LocalPlayer.ActorNumber.ToString();
+        object[] datas = new object[] { message };
+        //cache options
+        RaiseEventOptions options = new RaiseEventOptions
+        {
+
+            CachingOption = EventCaching.DoNotCache,
+            Receivers = ReceiverGroup.All,
+        };
+
+        SendOptions sendOptions = new SendOptions();
+        sendOptions.Reliability = true;
+
+        PhotonNetwork.RaiseEvent(eventCode, datas, options, sendOptions);
+    }
+
+    public void AddPlayer(string playerName, int nr)
     {
         GameObject pop = Instantiate(playerObjectPrefab, Vector3.zero, Quaternion.identity);
+        pop.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("AvatarPlayers/Avatar" + nr);
         pop.transform.GetChild(0).GetComponent<Text>().text = playerName;
         pop.transform.SetParent(playersContainer.transform,false);
         pop.name = playerName;
+        
     }
 
     public void RemovePlayer(string playerName)
@@ -318,5 +369,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 
         }
     }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        lobbyUI.SetActive(false);
+        foreach (Transform child in playersContainer.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        //limpar players
+
+
+
+        //roomUI.SetActive(true);
+        //mainMenuUI.SetActive(false);
+    }
+
+
+    public void ReturnMainMenu()
+    {
+        roomUI.SetActive(false);
+        mainMenuUI.SetActive(true);
+    }
+
 
 }

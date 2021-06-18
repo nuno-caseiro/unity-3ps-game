@@ -27,9 +27,10 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         {
             if (other.gameObject.tag == "Player")
             {
+                GetComponentInParent<NavMeshAgentBrain>().playerInSmall = true;
                 if (!other.GetComponentInParent<MyPlayer>().isDead && !GetComponentInParent<NavMeshAgentBrain>().Attacking)
                 {
-                    GetComponentInParent<NavMeshAgentBrain>().playerInSmall = true;
+                    
                     GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                   
                     GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
@@ -55,13 +56,19 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
         {
 
             GetComponentInParent<NavMeshAgentBrain>().Look();
-
+            GetComponentInParent<NavMeshAgentBrain>().playerInSmall = true;
             if (!GetComponentInParent<NavMeshAgentBrain>().Attacking)
             {
-               
+                
                 GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                 GetComponentInParent<NavMeshAgentBrain>().ReachTarget();
             }
+
+            if (other.GetComponentInParent<MyPlayer>().isDead)
+            {
+                GetComponentInParent<NavMeshAgentBrain>().stop();
+            }
+
         }
     }
 
@@ -89,6 +96,11 @@ public class NavMeshAgentSmallTrigger : MonoBehaviour
                     //GetComponentInParent<NavMeshAgentBrain>().Point = getClosestTarget();
                     //GetComponentInParent<NavMeshAgentBrain>().move();
 
+                }
+                else
+                {
+                    GetComponentInParent<NavMeshAgentBrain>().Attacking = false;
+                    GetComponentInParent<NavMeshAgentBrain>().stop();
                 }
             }
         }
