@@ -219,6 +219,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             roomUI.SetActive(false);
             errorScreen.SetActive(true);
+            errorScreen.transform.GetChild(0).GetComponent<Text>().text = "You must enter a room name";
+
         }
     }
 
@@ -243,8 +245,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             roomUI.SetActive(false);
             errorScreen.SetActive(true);
+            errorScreen.transform.GetChild(0).GetComponent<Text>().text = "You must enter a room name";
+
         }
-        
+
 
     }
 

@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject aim;
 
+    public GameObject joyStick;
+    public GameObject fireBtn;
+    public GameObject jumpBtn;
 
     int totalPlayers = 0;
 
@@ -348,6 +351,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         timerParent.SetActive(false);
         pauseMenu.SetActive(false);
         aim.SetActive(false);
+        fireBtn.SetActive(false);
+        joyStick.SetActive(false);
+        jumpBtn.SetActive(false);
+
     }
 
 

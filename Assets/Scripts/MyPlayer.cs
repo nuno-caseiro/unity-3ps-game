@@ -64,7 +64,7 @@ public class MyPlayer : MonoBehaviourPun//, IPunObservable
 
     public Text nameLabel;
 
-   
+    
     Rigidbody rb;
     public float fallMultiplayer = 2.5f;
 

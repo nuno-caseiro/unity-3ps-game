@@ -999,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &353652525
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1016,7 +1016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015259, y: 468.486}
+  m_AnchoredPosition: {x: -28.499985, y: 348.00003}
   m_SizeDelta: {x: 533.247, y: 82.324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &353652526
@@ -1040,7 +1040,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 36ce6b3f4fcbb40a885f5b27c5643f59, type: 3}
     m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 1
@@ -2914,6 +2914,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+--- !u!1 &1014987952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252,
+    type: 3}
+  m_PrefabInstance: {fileID: 1014987951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1062565420
 GameObject:
   m_ObjectHideFlags: 0
@@ -5723,6 +5729,9 @@ MonoBehaviour:
   timer: {fileID: 1461280865}
   myScore: {fileID: 1768793112}
   aim: {fileID: 859125774}
+  joyStick: {fileID: 1014987952}
+  fireBtn: {fileID: 1062565420}
+  jumpBtn: {fileID: 411735826}
   deathScreen: {fileID: 1327818395}
   spectateContainer: {fileID: 1345202182}
   spectateObject: {fileID: 7565220436504177269, guid: 64e4d355812ae49bc970a3055ad0011e,
