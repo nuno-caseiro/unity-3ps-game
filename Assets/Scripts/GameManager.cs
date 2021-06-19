@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         nPlayers  = PhotonNetwork.PlayerList.Length;
 
         masterClient = MasterClientName();
+        print(masterClient);
         running = true;
 
         timerParent.SetActive(true);
@@ -100,24 +101,34 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if(masterClient == "None") { 
+        
+            masterClient = MasterClientName();
+        }
+        
+
+        print(masterClient);
+
+
         //back buton go main menu por exemplo
         //print(PhotonNetwork.PlayerList.Length);
-       /* if (nPlayers != PhotonNetwork.PlayerList.Length)
-        {
-            //roomCreator = null;
-            //PhotonNetwork.Disconnect();
-            if (PhotonNetwork.IsConnected)
-            {
-                PhotonNetwork.LeaveRoom(true);
-                PhotonNetwork.LoadLevel(0);
-            }
-            
-            return;
-        }
-       */
+        /* if (nPlayers != PhotonNetwork.PlayerList.Length)
+         {
+             //roomCreator = null;
+             //PhotonNetwork.Disconnect();
+             if (PhotonNetwork.IsConnected)
+             {
+                 PhotonNetwork.LeaveRoom(true);
+                 PhotonNetwork.LoadLevel(0);
+             }
 
-        if (scoreContainer.transform.childCount != totalPlayers)
+             return;
+         }
+        */
+
+        if (scoreContainer.transform.childCount != totalPlayers && !localPlayer.GetComponent<MyPlayer>().isDead)
         {
+            
             GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
             if(totalPlayers == players.Length)
             {
@@ -211,6 +222,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     if (!playerNameExists(playerName, false))
                     {
+                       
                         GameObject so = Instantiate(spectateObject, spectateContainer.transform);
                         so.transform.Find("PlayerName").GetComponent<Text>().text = playerName;
                         so.transform.Find("SpectateButton").GetComponent<SpectateButtonClick>().target = player;
@@ -247,11 +259,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Destroy(ch.GetChild(i).gameObject);
             }
         }
-        
-
-
-    
-       
      return false;
     }
 
@@ -316,6 +323,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject player in players)
         {
+            print("MALUCO");
             GameObject so = Instantiate(finishPlayerObject, container.transform);
             so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;
             /*  if (player.GetComponent<PhotonView>().IsMine)
@@ -496,6 +504,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
         {
+
             if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
             {
                 masterClient = player.GetComponent<PhotonView>().Owner.NickName;
