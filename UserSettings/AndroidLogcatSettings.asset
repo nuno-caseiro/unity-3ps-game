@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "0255e067735dbfcb",
+    "m_SelectedDeviceId": "L2N4C19926018730",
     "m_SelectedPackage": {
-        "deviceId": "0255e067735dbfcb",
-        "name": "com.MEICM.ZombieBay",
-        "processId": 2116,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -17,50 +17,140 @@
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 27194,
+            "processId": 455,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 27799,
+            "processId": 846,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 29107,
+            "processId": 1081,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 29955,
+            "processId": 1835,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 30401,
+            "processId": 2106,
             "exited": true
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 451,
+            "processId": 2561,
             "exited": false
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 1640,
+            "processId": 4381,
             "exited": false
         },
         {
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
-            "processId": 2116,
+            "processId": 4925,
             "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 6837,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 7160,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 7534,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 8129,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 8723,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 9061,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 10547,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 11092,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 11965,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 12345,
+            "exited": false
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 3432,
+            "exited": true
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.huawei.android.launcher",
+            "processId": 2139,
+            "exited": true
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 28359,
+            "exited": true
+        },
+        {
+            "deviceId": "L2N4C19926018730",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 31000,
+            "exited": true
+        },
+        {
+            "deviceId": "L2N0219926009458",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 24826,
+            "exited": true
         }
     ],
     "m_Tags": {
