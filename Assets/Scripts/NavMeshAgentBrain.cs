@@ -171,12 +171,12 @@ public class NavMeshAgentBrain : MonoBehaviourPun
             animator.SetBool("attack", false);
 
             ShouldIMove = false;
-        Attacking = false;
-        navMeshAgent.isStopped = true;
-        if (screaming != null)
-        {
-            screaming.GetComponent<AudioSource>().Stop();
-        }
+            Attacking = false;
+            navMeshAgent.isStopped = true;
+            if (screaming != null)
+            {
+                screaming.GetComponent<AudioSource>().Stop();
+            }
             navMeshAgent.velocity = Vector3.zero;
             
         

@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Text timer;
     public GameObject myScore;
 
+    public GameObject aim;
+
 
     int totalPlayers = 0;
 
@@ -340,7 +342,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         timer.text = "";
         timerParent.SetActive(false);
         pauseMenu.SetActive(false);
-        
+        aim.SetActive(false);
     }
 
 
@@ -382,7 +384,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             print("REMOVED");
             Destroy(localPlayer);
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.LoadLevel(0);
+           // PhotonNetwork.LoadLevel(0);
         }
       
     }
