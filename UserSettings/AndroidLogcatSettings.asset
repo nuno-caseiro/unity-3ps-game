@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "0255e067735dbfcb",
         "name": "com.MEICM.ZombieBay",
-        "processId": 20492,
+        "processId": 21935,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -84,6 +84,24 @@
             "deviceId": "0255e067735dbfcb",
             "name": "com.MEICM.ZombieBay",
             "processId": 20492,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 21265,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 21550,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 21935,
             "exited": false
         }
     ],
