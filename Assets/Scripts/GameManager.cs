@@ -265,10 +265,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
-            {
+           // if (player.GetComponent<PhotonView>().Owner.IsMasterClient)
+           // {
                 player.GetPhotonView().RPC("GameOver", RpcTarget.All);
-            }
+           // }
         }
     }
 
