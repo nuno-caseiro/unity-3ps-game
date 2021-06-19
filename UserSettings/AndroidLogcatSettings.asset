@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "0255e067735dbfcb",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "0255e067735dbfcb",
+        "name": "com.MEICM.ZombieBay",
+        "processId": 20492,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -43,6 +43,48 @@
             "name": "com.MEICM.ZombieBay",
             "processId": 10496,
             "exited": true
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 16342,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 17269,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 18029,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 18668,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 18969,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 19580,
+            "exited": false
+        },
+        {
+            "deviceId": "0255e067735dbfcb",
+            "name": "com.MEICM.ZombieBay",
+            "processId": 20492,
+            "exited": false
         }
     ],
     "m_Tags": {

@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private bool clickedExit = false;
 
-    private string masterClient;
+    //private string masterClient;
 
     // Start is called before the first frame update
     void Start()
@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         nPlayers  = PhotonNetwork.PlayerList.Length;
 
-        masterClient = MasterClientName();
-        print(masterClient);
+       // masterClient = MasterClientName();
+       
         running = true;
 
         timerParent.SetActive(true);
@@ -101,13 +101,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(masterClient == "None") { 
+       /* if(masterClient == "None") { 
         
             masterClient = MasterClientName();
         }
-        
 
-        print(masterClient);
+
+        print("Masterclient:" + masterClient);*/
 
 
         //back buton go main menu por exemplo
@@ -192,8 +192,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             player.GetPhotonView().RPC("callUpdateSpectate", RpcTarget.All);
         }
 
-        print(deadPlayers);
-        print(totalPlayers);
+       
         if (deadPlayers == totalPlayers)
         {
             foreach (GameObject player in players)
@@ -244,11 +243,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool playerNameExists(string playerName, bool toRemove)
     {
         Transform ch = spectateContainer.transform;
-        print(ch.transform.name);
-        print(spectateContainer.transform.childCount);
+      
         for(int i = 0; i< spectateContainer.transform.childCount; i++)
         {
-            print(ch.GetChild(i).gameObject.name);
             if (ch.GetChild(i).gameObject.transform.GetChild(0).GetComponent<Text>().text == playerName && !toRemove)
             {
                 return true;
@@ -323,7 +320,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject player in players)
         {
-            print("MALUCO");
+         
             GameObject so = Instantiate(finishPlayerObject, container.transform);
             so.transform.Find("PlayerName").GetComponent<Text>().text = player.GetPhotonView().Owner.NickName;
             /*  if (player.GetComponent<PhotonView>().IsMine)
@@ -336,7 +333,7 @@ public class GameManager : MonoBehaviourPunCallbacks
               }*/
 
             so.transform.Find("Score").GetComponent<Text>().text = player.GetComponent<MyPlayer>().points.ToString();
-            print(player.GetComponent<MyPlayer>().points);
+           
         }
 
 
@@ -377,32 +374,46 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        base.OnPlayerLeftRoom(otherPlayer);
-
+      
         //remover do r
 
 
 
-        removePlayerFromScoreContainer();
+       // removePlayerFromScoreContainer();
         nPlayers = PhotonNetwork.PlayerList.Length;
 
-
+     /*   print(running && !clickedExit && !MasterClientAvailable());
         if (running && !clickedExit && !MasterClientAvailable())
         {
             print("REMOVED");
-            Destroy(localPlayer);
+            PhotonNetwork.Destroy(localPlayer);
             PhotonNetwork.LeaveRoom();
            // PhotonNetwork.LoadLevel(0);
         }
-      
+      */
     }
 
-    private bool MasterClientAvailable()
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        /*   if (PhotonNetwork.IsMasterClient)
+           {
+               poolManager.SetActive(true);
+               spawnEnemyPoint.SetActive(true);
+           }*/
+
+        PhotonNetwork.LeaveRoom();
+    }
+
+
+    /*private bool MasterClientAvailable()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
+        print(players.Length);
         foreach(GameObject player in players)
         {
-            if (player.GetComponent<PhotonView>().Owner.NickName == masterClient)
+            print("Playername:" + player.GetPhotonView().Owner.NickName + "Master client:" + masterClient);
+            if (player.GetPhotonView().Owner.NickName == masterClient)
             {
                 return true;
             }
@@ -410,6 +421,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         return false;
     }
+    */
 
     [PunRPC]
     public void updateScoreContainer()
@@ -443,7 +455,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             if (!PlayerAvailabe(sc, i))
             {
-                print("HI");
                 Destroy(scoreContainer.transform.GetChild(i));
             }
 
@@ -459,7 +470,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             string playerName = player.GetPhotonView().Owner.NickName;
             if (sc.GetChild(pos).GetChild(0).GetComponent<Text>().text == playerName)
             {
-                print(sc.GetChild(pos).GetChild(0).GetComponent<Text>().text);
                 return true;
             }
 
@@ -499,7 +509,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public string MasterClientName()
+   /* public string MasterClientName()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerParent");
         foreach (GameObject player in players)
@@ -512,7 +522,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
         return "None";
-    }
+    }*/
 
 
     public override void OnLeftRoom()

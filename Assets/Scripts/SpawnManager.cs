@@ -8,16 +8,22 @@ public class SpawnManager : MonoBehaviour
     private float intervalToSpawnEnemy = 10;
     private float timerSpawnEnemy = 0;
     public GameObject[] enemy;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
+    private void OnEnable()
+    {
+        intervalToSpawnEnemy = intervalToSpawnEnemy / (int)PhotonNetwork.CurrentRoom.MaxPlayers;
+    }
+
     // Update is called once per frame
     void Update()
     {
+     
         if (PhotonNetwork.IsMasterClient && transform.gameObject.activeSelf && GameObject.Find("GameManager").GetComponent<GameManager>().running)
         {
             CalculateTimeForSpawnEnemy();
