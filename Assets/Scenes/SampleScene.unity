@@ -216,10 +216,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4908173561820162, guid: aef445cdc1ce6fc4f93a867a9d9109ad, type: 3}
       propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4908173561820162, guid: aef445cdc1ce6fc4f93a867a9d9109ad, type: 3}
-      propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4908173561820162, guid: aef445cdc1ce6fc4f93a867a9d9109ad, type: 3}
@@ -1572,10 +1568,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010409153280, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
       propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010409153280, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
-      propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4000010409153280, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
@@ -1805,10 +1797,6 @@ PrefabInstance:
     - target: {fileID: 1000010823978654, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
       propertyPath: m_Name
       value: FlamesParticleEffect (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010409153280, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4000010409153280, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
       propertyPath: m_RootOrder
@@ -2116,10 +2104,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0297c1d9dc5137043b0bde39f96ff5b2, type: 3}
       propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 0297c1d9dc5137043b0bde39f96ff5b2, type: 3}
-      propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0297c1d9dc5137043b0bde39f96ff5b2, type: 3}
@@ -2186,10 +2170,6 @@ PrefabInstance:
     - target: {fileID: 1938796945579176, guid: d33067713c4ea684297c7899a427215b, type: 3}
       propertyPath: m_Name
       value: Barrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
       propertyPath: m_RootOrder
@@ -2597,10 +2577,6 @@ PrefabInstance:
     - target: {fileID: 1938796945579176, guid: d33067713c4ea684297c7899a427215b, type: 3}
       propertyPath: m_Name
       value: Barrel (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
       propertyPath: m_RootOrder
@@ -3378,10 +3354,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
       propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
-      propertyPath: m_RootOrder
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4962365210518066, guid: d33067713c4ea684297c7899a427215b, type: 3}
@@ -3448,10 +3420,6 @@ PrefabInstance:
     - target: {fileID: 1431210908605580, guid: ddf4f45c150785f4685630ead1bdbe25, type: 3}
       propertyPath: m_Name
       value: Fence1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063622810316754, guid: ddf4f45c150785f4685630ead1bdbe25, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4063622810316754, guid: ddf4f45c150785f4685630ead1bdbe25, type: 3}
       propertyPath: m_RootOrder
@@ -3765,10 +3733,6 @@ PrefabInstance:
     - target: {fileID: 1937836166556746, guid: 4f3403a0a166e444194da6bcb1f3cb4e, type: 3}
       propertyPath: m_Name
       value: Rope
-      objectReference: {fileID: 0}
-    - target: {fileID: 4328535991387118, guid: 4f3403a0a166e444194da6bcb1f3cb4e, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4328535991387118, guid: 4f3403a0a166e444194da6bcb1f3cb4e, type: 3}
       propertyPath: m_RootOrder
@@ -5396,10 +5360,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560894860893578, guid: a0c500ad6d9391749b34c0f9f753987c, type: 3}
       propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4560894860893578, guid: a0c500ad6d9391749b34c0f9f753987c, type: 3}
-      propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4560894860893578, guid: a0c500ad6d9391749b34c0f9f753987c, type: 3}
@@ -5880,10 +5840,6 @@ PrefabInstance:
     - target: {fileID: 1242416604498382, guid: fb05bdaf6898faa4fb17c88de74b56c0, type: 3}
       propertyPath: m_Name
       value: ShedAllLod
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699894387217202, guid: fb05bdaf6898faa4fb17c88de74b56c0, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4699894387217202, guid: fb05bdaf6898faa4fb17c88de74b56c0, type: 3}
       propertyPath: m_RootOrder
@@ -6375,10 +6331,6 @@ PrefabInstance:
     - target: {fileID: 1432539168461802, guid: 135ba6f8587f905418f573a1b2380169, type: 3}
       propertyPath: m_Name
       value: Fence2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4602302334990562, guid: 135ba6f8587f905418f573a1b2380169, type: 3}
-      propertyPath: m_RootOrder
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4602302334990562, guid: 135ba6f8587f905418f573a1b2380169, type: 3}
       propertyPath: m_RootOrder
